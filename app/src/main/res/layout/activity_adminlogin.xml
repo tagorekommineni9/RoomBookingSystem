@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/et_admin_id"
+        android:background="@drawable/edittext_rounded"
+        android:hint="Admin ID"
+        android:padding="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColorHint="#0C0C0C"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:background="@drawable/edittext_rounded"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColorHint="#0C0C0C"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+
+    <Button
+        android:id="@+id/btn_admin_login"
+        android:text="Login"
+        android:textSize="23dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#FAF5F5"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_login" />
+
+
+
+
+
+</LinearLayout>
