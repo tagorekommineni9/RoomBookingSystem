@@ -7,8 +7,19 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room Booking"
+       android:textSize="32sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:layout_marginBottom="12dp"/>
+
+
     <EditText
-        android:id="@+id/et_staff_id"
+        android:id="@+id/et_user_id"
         android:background="@drawable/edittext_rounded"
         android:hint="Staff ID"
         android:padding="8dp"
@@ -33,7 +44,7 @@
 
 
     <Button
-        android:id="@+id/btn_user_login"
+        android:id="@+id/btn_login"
         android:text="Login"
         android:textSize="23dp"
         android:layout_marginTop="30dp"
