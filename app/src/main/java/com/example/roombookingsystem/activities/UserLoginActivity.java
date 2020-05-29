@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
 import com.example.roombookingsystem.activities.staff.StaffDashboardActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +44,7 @@ public class UserLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
 
-        //OnAuthStateChanged gets invoked in the UI thread on changes in the authentication state
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -62,13 +65,11 @@ public class UserLoginActivity extends AppCompatActivity {
                                 userType =  dataSnapshot.child("type").getValue(String.class);
                                 if(userType.equals("staff"))
                                 {
-                                    Intent intent = new Intent(UserLoginActivity.this, StaffDashboardActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+                                    staffDashBoard();
                                 }
-                                else if ()
+                                else if (userType.equals("admin"))
                                 {
-
+                                   adminDashBoard();
                                 }
 
                             }
@@ -118,44 +119,75 @@ public class UserLoginActivity extends AppCompatActivity {
                     String staffID = mStaffID.getText().toString();
                     String password = mPassword.getText().toString();
 
-                    String type = "staff";
-                    //check role and redirect
 
-                    if(type.equals("staff")){
+                        firebaseAuth.signInWithEmailAndPassword(staffID, password).addOnCompleteListener(UserLoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        Intent userIntent = new Intent(UserLoginActivity.this, StaffDashboardActivity.class);
-                        userIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(userIntent);
-                    }
-                    else if(type.equals("admin")){
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(UserLoginActivity.this, "Enter correct password", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(UserLoginActivity.this, "Successfully signed in...", Toast.LENGTH_SHORT).show();
+                                    userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUserID);
 
-                        Intent adminIntent = new Intent(UserLoginActivity.this, AdminDashboardActivity.class);
-                        adminIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(adminIntent);
-                    }
-                    else {
+                                    userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if(dataSnapshot.exists())
+                                            {
+                                                userType =  dataSnapshot.child("type").getValue(String.class);
+                                                if(userType.equals("staff"))
+                                                {
+                                                    staffDashBoard();
+                                                }
+                                                else if (userType.equals("admin"))
+                                                {
+                                                    adminDashBoard();
+                                                }
+                                            }
+                                        }
 
-                        Toast.makeText(UserLoginActivity.this, "User is not registered. Please register...", Toast.LENGTH_SHORT).show();
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        //Connect to Firebase. Get current session
-                        firebaseAuth = FirebaseAuth.getInstance();
-
-
-
-
-
-
+                                        }
+                                    });
+                                }
+                            }
+                        });
 
 
-
-
-
-
-                    }
                 }
             }
         });
     }
 
+    private void adminDashBoard() {
+        Intent intent = new Intent(UserLoginActivity.this, AdminDashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(firebaseAuthStateListener);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(firebaseAuthStateListener);
+        finish();
+    }
+
+    public void staffDashBoard(){
+        Intent intent = new Intent(UserLoginActivity.this, StaffDashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 }
