@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.roombookingsystem.R;
 
-public class UserDashboardActivity extends AppCompatActivity {
+public class StaffDashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

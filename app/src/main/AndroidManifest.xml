@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
        >
         <activity android:name=".activities.admin.AdminDashboardActivity"></activity>
-        <activity android:name=".activities.staff.UserDashboardActivity" />
+        <activity android:name=".activities.staff.StaffDashboardActivity" />
         <activity android:name=".activities.RegistrationActivity" />
         <activity android:name=".activities.UserLoginActivity">
             <intent-filter>
