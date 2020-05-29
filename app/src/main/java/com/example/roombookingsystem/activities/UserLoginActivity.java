@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +19,10 @@ import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
 import com.example.roombookingsystem.activities.staff.StaffDashboardActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,23 +41,25 @@ public class UserLoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private DatabaseReference userDatabaseReference;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
+
+
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                firebaseUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if(user != null) {
 
-                if(firebaseUserID != null) {
-
-                    userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUserID);
+                    userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getUid());
 
                     userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -89,7 +94,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
 
         mStaffID = findViewById(R.id.et_user_email);
-        mPassword = findViewById(R.id.et_password);
+        mPassword = findViewById(R.id.et_user_password);
 
         btn_user_login=(Button)findViewById(R.id.btn_login);
         tv_signup=(TextView)findViewById(R.id.tv_signup);
@@ -130,7 +135,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                 else
                                 {
                                     Toast.makeText(UserLoginActivity.this, "Successfully signed in...", Toast.LENGTH_SHORT).show();
-                                    userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUserID);
+                                    userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getUid().toString());
 
                                     userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -181,7 +186,6 @@ public class UserLoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(firebaseAuthStateListener);
-        finish();
     }
 
     public void staffDashBoard(){
