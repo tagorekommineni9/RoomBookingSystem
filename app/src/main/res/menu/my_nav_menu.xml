@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_rooms_available"
+            android:icon="@drawable/ic_rooms"
+            android:title="Account" />
+        <item
+            android:id="@+id/nav_booked_rooms"
+            android:icon="@drawable/ic_booked_rooms"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_edit_profile"
+            android:icon="@drawable/ic_edit"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Settings" />
+    </group>
+</menu>
