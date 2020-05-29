@@ -19,9 +19,9 @@
 
 
     <EditText
-        android:id="@+id/et_user_id"
+        android:id="@+id/et_user_email"
         android:background="@drawable/edittext_rounded"
-        android:hint="Staff ID"
+        android:hint="Email ID"
         android:padding="8dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"

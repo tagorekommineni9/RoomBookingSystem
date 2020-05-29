@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_user=(Button)findViewById(R.id.btn_user);
+        btn_user=findViewById(R.id.btn_user);
         btn_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,19 +28,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_admin=(Button)findViewById(R.id.btn_admin);
-        btn_admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),AdminLoginActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        tv_signup=(TextView) findViewById(R.id.tv_signup);
+        tv_signup=findViewById(R.id.tv_signup);
         tv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
 
