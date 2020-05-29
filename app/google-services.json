@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "428206883377",
+    "firebase_url": "https://book-rooms-eb3dc.firebaseio.com",
+    "project_id": "book-rooms-eb3dc",
+    "storage_bucket": "book-rooms-eb3dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428206883377:android:936bae90066a2188650b10",
+        "android_client_info": {
+          "package_name": "com.example.roombookingsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428206883377-f79pfhuoagnmcqr0sh9e8rvibqouhudo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roombookingsystem",
+            "certificate_hash": "e5b71fa78db6c4d7541d57b8b46275bb2ef1f8fe"
+          }
+        },
+        {
+          "client_id": "428206883377-12grst9opmaq4ml79ednuncc48a4kjqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBMZX1P3AtVx4wg7G4iWMIG5arH3GPSKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428206883377-12grst9opmaq4ml79ednuncc48a4kjqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
