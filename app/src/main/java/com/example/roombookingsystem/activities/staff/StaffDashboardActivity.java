@@ -44,7 +44,6 @@ public class StaffDashboardActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.my_drawer);
         navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle mDrawerToggle;
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,6 +66,7 @@ public class StaffDashboardActivity extends AppCompatActivity {
         });
 
 
+        setInitFragment();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -108,7 +108,11 @@ public class StaffDashboardActivity extends AppCompatActivity {
 
     }
 
-
+    private void setInitFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, new RoomsAvailable());
+        ft.commit();
+    }
 
 
 }
