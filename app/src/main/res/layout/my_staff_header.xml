@@ -7,16 +7,19 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background"/>
+        android:tint="#fff"
+        android:src="@drawable/ic_booked_rooms"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Book Rooms"
+        android:text="STAFF"
         android:textSize="32dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/img"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
