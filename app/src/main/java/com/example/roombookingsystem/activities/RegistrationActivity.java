@@ -15,6 +15,7 @@ import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.staff.StaffDashboardActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +30,8 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText mName, mPhone, mEmail, mPassword, mConfirmPassword;
     Button mRegister;
     String  name, phone, email, password, confirm_pwd;
-    int staff_id;
+
+    MaterialToolbar toolbar;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
@@ -40,10 +42,17 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activit_registration);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent staffIntent = new Intent(RegistrationActivity.this, UserLoginActivity.class);
+                startActivity(staffIntent);
 
-        getSupportActionBar().setTitle("Registration");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        });
 
 
         mName = findViewById(R.id.et_name);
