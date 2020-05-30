@@ -29,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     EditText mName, mPhone, mEmail, mPassword, mConfirmPassword;
     Button mRegister;
-    String  name, phone, email, password, confirm_pwd;
+    String  name, phone, email, password;
 
     MaterialToolbar toolbar;
 
