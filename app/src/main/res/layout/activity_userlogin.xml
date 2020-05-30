@@ -11,11 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Room Booking"
-       android:textSize="32sp"
+       android:textSize="48sp"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:gravity="center"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="32dp"/>
 
 
     <EditText
@@ -46,7 +47,7 @@
     <Button
         android:id="@+id/btn_login"
         android:text="Login"
-        android:textSize="23dp"
+
         android:layout_marginTop="30dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"

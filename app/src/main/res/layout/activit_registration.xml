@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    android:id="@+id/tv_layout"
+<RelativeLayout android:id="@+id/tv_layout"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#fff"
+        app:navigationIcon="@drawable/ic_back"
+        android:layout_marginBottom="32dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registration"
+        android:textSize="32sp"
+        android:textAllCaps="true"
+        android:layout_below="@id/toolbar"
+        android:id="@+id/registration"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"
+        />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/registration"
+      >
 
 
 
@@ -155,4 +184,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_login" />
-</TableLayout>
+    </TableLayout>
+</RelativeLayout>
