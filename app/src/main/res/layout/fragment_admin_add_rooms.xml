@@ -134,7 +134,7 @@ tools:context=".activities.admin.AdminAddRooms">
 
 
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_add"
         android:text="Add Room"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
