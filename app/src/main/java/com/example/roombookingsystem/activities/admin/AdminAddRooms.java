@@ -73,7 +73,7 @@ public class AdminAddRooms extends Fragment {
                     roomCapacity = mRoomCapavity.getText().toString();
                     roomSoftware = mSoftwareEquip.getText().toString();
                     roomHardware = mHardwareEquip.getText().toString();
-
+                    Boolean available = true;
 
                     DatabaseReference RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
 
@@ -82,6 +82,7 @@ public class AdminAddRooms extends Fragment {
                     roomInfo.put("roomcapacity", roomCapacity);
                     roomInfo.put("software", roomSoftware);
                     roomInfo.put("hardware", roomHardware);
+                    roomInfo.put("available", available);
 
                     RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
                         @Override
