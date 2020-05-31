@@ -19,9 +19,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_all_rooms"
+        android:id="@+id/recycler_admin_all_rooms"
         android:layout_below="@id/allrooms"
-        tools:listitem="@layout/admin_item_rooms"/>
+        tools:listitem="@layout/item_rooms"/>
 
 
 </RelativeLayout>

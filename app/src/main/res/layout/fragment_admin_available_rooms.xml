@@ -8,18 +8,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Available Rooms"
+        android:text="AVAILABLE ROOMS"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:textSize="32sp"
-        android:id="@+id/availablerooms"
-        android:layout_marginBottom="12dp"
+        android:id="@+id/allrooms"
+        android:layout_centerHorizontal="true"
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
         android:id="@+id/recycler_admin_available_rooms"
-        android:layout_below="@id/availablerooms"/>
+        android:layout_below="@id/allrooms"
+        tools:listitem="@layout/item_rooms"/>
 
 
 </RelativeLayout>
