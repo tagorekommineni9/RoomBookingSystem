@@ -6,7 +6,9 @@ public class Rooms {
     String roomcapacity;
     String hardware;
     String software;
+
     boolean available;
+
 
     public String getRoomcapacity() {
         return roomcapacity;

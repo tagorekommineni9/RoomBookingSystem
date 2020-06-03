@@ -19,14 +19,12 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
 
     private List<Rooms> RoomList;
     private Context context;
-    private FirebaseAuth mAuth;
-    private String loggedinUserId;
-    private DatabaseReference RoomDatabase = FirebaseDatabase.getInstance().getReference().child("rooms");
 
     public RoomsAdapter(List<Rooms> roomList, Context context) {
         RoomList = roomList;
         this.context = context;
     }
+
 
 
     @NonNull
