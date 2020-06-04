@@ -108,4 +108,19 @@ public class AdminModifyRoom extends AppCompatActivity {
         });
     }
 
+    private boolean updateRoom(String roomno, String roomcapacity, String hardware, String software, boolean available) {
+        mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomno);
+
+        Rooms room = new Rooms(roomno, roomcapacity, hardware, software, available);
+        mRoomsDatabase.setValue(room);
+        Toast.makeText(this, "Room updated", Toast.LENGTH_LONG).show();
+
+        return true;
+    }
+
+    private ArrayList<Rooms> roomListingResult= new ArrayList<Rooms>();
+
+    private List<Rooms> getRoomListing() {
+        return roomListingResult;
+    }
 }
