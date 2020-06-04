@@ -49,8 +49,8 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent staffIntent = new Intent(RegistrationActivity.this, UserLoginActivity.class);
-                startActivity(staffIntent);
 
+                startActivity(staffIntent);
             }
         });
 
@@ -104,7 +104,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 staffInfo.put("type", "staff");
 
                                 currentUserDb.updateChildren(staffInfo);
-                                Toast.makeText(RegistrationActivity.this, "Staff ID is created successfully! Please login!", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(RegistrationActivity.this, "Staff ID is created successfully.", Toast.LENGTH_SHORT).show();
                                 clearFields();
 
                                 Intent staffIntent = new Intent(RegistrationActivity.this, StaffDashboardActivity.class);

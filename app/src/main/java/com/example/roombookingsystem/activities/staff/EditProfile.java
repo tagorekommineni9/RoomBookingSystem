@@ -96,27 +96,27 @@ public class EditProfile extends Fragment {
             public void onClick(View v) {
 
 
-                    name = etName.getText().toString();
-                    email = etEmail.getText().toString();
-                    phone = etPhone.getText().toString();
+                name = etName.getText().toString();
+                email = etEmail.getText().toString();
+                phone = etPhone.getText().toString();
 
-                    Map staffInfo = new HashMap();
-                    staffInfo.put("name", name);
-                    staffInfo.put("phone",phone);
+                Map staffInfo = new HashMap();
+                staffInfo.put("name", name);
+                staffInfo.put("phone",phone);
 
-                    mUserDatabase.updateChildren(staffInfo).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "Staff Information is updated successfully", Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
-                            }
-
+                mUserDatabase.updateChildren(staffInfo).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getContext(), "Staff Information is updated successfully", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                        else
+                        {
+                            Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
 
 
             }

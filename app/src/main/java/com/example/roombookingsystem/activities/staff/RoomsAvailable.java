@@ -55,7 +55,9 @@ public class RoomsAvailable extends Fragment {
         mRoomRecyclerView.setHasFixedSize(true);
         mRoomLayoutManager = new LinearLayoutManager(getActivity());
         mRoomRecyclerView.setLayoutManager(mRoomLayoutManager);
+
         mRoomItemAdapter = new RoomsAdapter(getRoomListing(), getActivity());
+
         mRoomRecyclerView.setAdapter(mRoomItemAdapter);
 
         setRoomData();
@@ -93,6 +95,7 @@ public class RoomsAvailable extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();

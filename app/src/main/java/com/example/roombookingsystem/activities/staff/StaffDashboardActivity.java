@@ -13,9 +13,11 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.UserLoginActivity;
+import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,6 +87,7 @@ public class StaffDashboardActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_logout:
                         firebaseAuth.signOut();
+                        Toast.makeText(StaffDashboardActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
                         Intent signoutIntent = new Intent(StaffDashboardActivity.this, UserLoginActivity.class);
                         signoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(signoutIntent);

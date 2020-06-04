@@ -37,7 +37,6 @@ public class UserLoginActivity extends AppCompatActivity {
 
     //Firebase Initial variables
     private FirebaseAuth firebaseAuth;
-    private String firebaseUserID;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private DatabaseReference userDatabaseReference;
 
@@ -45,10 +44,6 @@ public class UserLoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
-
-
-
-
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -61,6 +56,8 @@ public class UserLoginActivity extends AppCompatActivity {
 
                     userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getUid());
 
+
+
                     userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -68,6 +65,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             if(dataSnapshot.exists())
                             {
                                 userType =  dataSnapshot.child("type").getValue(String.class);
+
                                 if(userType.equals("staff"))
                                 {
                                     staffDashBoard();
@@ -135,6 +133,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                 else
                                 {
                                     Toast.makeText(UserLoginActivity.this, "Successfully signed in...", Toast.LENGTH_SHORT).show();
+
                                     userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getUid().toString());
 
                                     userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -17,8 +17,12 @@ import android.widget.Toast;
 import com.example.roombookingsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,33 +73,56 @@ public class AdminAddRooms extends Fragment {
                 }
                 else {
 
+
                     roomNo = mRoomNo.getText().toString();
                     roomCapacity = mRoomCapavity.getText().toString();
                     roomSoftware = mSoftwareEquip.getText().toString();
                     roomHardware = mHardwareEquip.getText().toString();
                     Boolean available = true;
-
-                    DatabaseReference RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
-
-                    Map roomInfo = new HashMap<>();
-                    roomInfo.put("roomno", roomNo);
-                    roomInfo.put("roomcapacity", roomCapacity);
-                    roomInfo.put("software", roomSoftware);
-                    roomInfo.put("hardware", roomHardware);
-                    roomInfo.put("available", available);
-
-                    RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
+                    Query query = FirebaseDatabase.getInstance().getReference().child("rooms").orderByChild("roomno").equalTo(roomNo);
+                    query.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "New Room is added successfully!", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(!dataSnapshot.exists()) {
+                                //create new user
+                                roomNo = mRoomNo.getText().toString();
+                                roomCapacity = mRoomCapavity.getText().toString();
+                                roomSoftware = mSoftwareEquip.getText().toString();
+                                roomHardware = mHardwareEquip.getText().toString();
+                                Boolean available = true;
+                                DatabaseReference RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
+
+                                RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
+
+                                Map roomInfo = new HashMap<>();
+                                roomInfo.put("roomno", roomNo);
+                                roomInfo.put("roomcapacity", roomCapacity);
+                                roomInfo.put("software", roomSoftware);
+                                roomInfo.put("hardware", roomHardware);
+                                roomInfo.put("available", available);
+
+                                RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getContext(), "New Room is added successfully!", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(getContext(), "Room number already exists", Toast.LENGTH_LONG).show();
                             }
                         }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
                     });
-
-
 
                 }
             }

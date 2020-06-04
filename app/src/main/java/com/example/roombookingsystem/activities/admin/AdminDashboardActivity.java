@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.UserLoginActivity;
@@ -32,6 +33,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
     Boolean mSlideState=false;
 
+    public AdminDashboardActivity() {
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_hamburger);
-        toolbar.setTitle("Staff Dashboard");
+        toolbar.setTitle("Admin Dashboard");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +92,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_logout:
                         firebaseAuth.signOut();
+                        Toast.makeText(AdminDashboardActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
                         Intent signoutIntent = new Intent(AdminDashboardActivity.this, UserLoginActivity.class);
                         signoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(signoutIntent);
@@ -105,7 +111,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        navigationView.setCheckedItem(R.id.nav_rooms_available);
+        navigationView.setCheckedItem(R.id.nav_all_rooms);
 
 
     }
