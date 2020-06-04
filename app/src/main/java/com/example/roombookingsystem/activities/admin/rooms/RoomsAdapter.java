@@ -18,13 +18,22 @@ import java.util.List;
 public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
 
     private List<Rooms> RoomList;
-    private Context context;
+    Context context;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        mListener = listener;
+    }
 
     public RoomsAdapter(List<Rooms> roomList, Context context) {
         RoomList = roomList;
         this.context = context;
     }
-
 
 
     @NonNull
@@ -33,7 +42,7 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
         View roomLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rooms, null, false);
         RecyclerView.LayoutParams roomLayoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         roomLayoutView.setLayoutParams(roomLayoutParams);
-        return new RoomsViewHolder((roomLayoutView));
+        return new RoomsViewHolder(roomLayoutView, mListener);
     }
 
     @Override
@@ -43,6 +52,7 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
         holder.mHardware.setText(RoomList.get(position).getHardware());
         holder.mRoomCapacity.setText(RoomList.get(position).getRoomcapacity());
         holder.mRoomNo.setText(RoomList.get(position).getRoomno());
+
 
     }
 
