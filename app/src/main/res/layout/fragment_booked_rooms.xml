@@ -13,6 +13,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="32sp"
         android:id="@+id/allrooms"
+        android:layout_marginTop="8dp"
         android:layout_centerHorizontal="true"
         />
 

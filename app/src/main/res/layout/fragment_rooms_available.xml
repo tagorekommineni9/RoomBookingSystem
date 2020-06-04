@@ -12,6 +12,9 @@
         android:text="Available Rooms"
         android:textSize="32sp"
         android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textAllCaps="true"
+        android:layout_marginTop="8dp"
         android:id="@+id/bookedrooms"
         />
 
