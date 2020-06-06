@@ -52,7 +52,8 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
         holder.mHardware.setText(RoomList.get(position).getHardware());
         holder.mRoomCapacity.setText(RoomList.get(position).getRoomcapacity());
         holder.mRoomNo.setText(RoomList.get(position).getRoomno());
-
+        holder.mBlock.setText(RoomList.get(position).getBlock());
+        holder.mFloor.setText(RoomList.get(position).getFloor());
 
     }
 

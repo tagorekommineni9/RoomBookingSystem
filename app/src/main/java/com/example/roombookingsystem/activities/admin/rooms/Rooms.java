@@ -83,4 +83,14 @@ public class Rooms {
         this.block = block;
         this.floor = floor;
     }
+
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.block = block;
+        this.floor = floor;
+    }
+
 }

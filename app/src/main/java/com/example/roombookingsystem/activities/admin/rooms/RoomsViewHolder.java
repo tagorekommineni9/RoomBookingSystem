@@ -12,7 +12,7 @@ import com.example.roombookingsystem.R;
 public class RoomsViewHolder extends RecyclerView.ViewHolder {
 
 
-    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware;
+    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor;
     Spinner mAvailable;
 
 
@@ -23,6 +23,8 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
         mRoomCapacity = itemView.findViewById(R.id.tv_room_capacity);
         mHardware = itemView.findViewById(R.id.tv_hardware_equipment);
         mSoftware = itemView.findViewById(R.id.tv_software_equipment);
+        mBlock = itemView.findViewById(R.id.tv_block);
+        mFloor = itemView.findViewById(R.id.tv_floor);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
