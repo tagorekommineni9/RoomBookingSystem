@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".activities.staff.BookRoom">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#fff"
+        app:navigationIcon="@drawable/ic_back"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:text="Book room"
         android:textSize="32sp"
         android:textAllCaps="true"
