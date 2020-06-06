@@ -32,9 +32,10 @@ import java.util.Map;
  */
 public class AdminAddRooms extends Fragment {
 
-    EditText mRoomNo, mRoomCapavity, mSoftwareEquip, mHardwareEquip;
+    EditText mRoomNo, mRoomCapavity, mSoftwareEquip, mHardwareEquip, mBlock, mFloor;;
     Button mAdd;
-    String roomNo, roomCapacity, roomSoftware, roomHardware;
+    String roomNo, roomCapacity, roomSoftware, roomHardware, block, floor;;
+    DatabaseReference RoomDb;
 
     public AdminAddRooms() {
         // Required empty public constructor
@@ -56,6 +57,8 @@ public class AdminAddRooms extends Fragment {
         mRoomCapavity = view.findViewById(R.id.et_room_capacity);
         mSoftwareEquip = view.findViewById(R.id.et_software_equipment);
         mHardwareEquip = view.findViewById(R.id.et_hardware_equipment);
+        mBlock = view.findViewById(R.id.et_block);
+        mFloor = view.findViewById(R.id.et_floor);
 
         mAdd = view.findViewById(R.id.btn_add);
 
@@ -69,7 +72,11 @@ public class AdminAddRooms extends Fragment {
                 } else if (TextUtils.isEmpty(mSoftwareEquip.getText().toString())) {
                     mSoftwareEquip.setError("Enter Software Equipment");
                 } else if (TextUtils.isEmpty(mHardwareEquip.getText().toString())) {
-                    mHardwareEquip.setError("Enter your Password");
+                    mHardwareEquip.setError("Enter Hardware Equipment");
+                } else if (TextUtils.isEmpty(mBlock.getText().toString())) {
+                    mBlock.setError("Enter Block");
+                } else if (TextUtils.isEmpty(mFloor.getText().toString())) {
+                    mFloor.setError("Enter Floor");
                 }
                 else {
 
@@ -78,7 +85,9 @@ public class AdminAddRooms extends Fragment {
                     roomCapacity = mRoomCapavity.getText().toString();
                     roomSoftware = mSoftwareEquip.getText().toString();
                     roomHardware = mHardwareEquip.getText().toString();
-                    Boolean available = true;
+                    block = mBlock.getText().toString();
+                    floor = mFloor.getText().toString();
+
                     Query query = FirebaseDatabase.getInstance().getReference().child("rooms").orderByChild("roomno").equalTo(roomNo);
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -89,8 +98,9 @@ public class AdminAddRooms extends Fragment {
                                 roomCapacity = mRoomCapavity.getText().toString();
                                 roomSoftware = mSoftwareEquip.getText().toString();
                                 roomHardware = mHardwareEquip.getText().toString();
+                                block = mBlock.getText().toString();
+                                floor = mFloor.getText().toString();
                                 Boolean available = true;
-                                DatabaseReference RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
 
                                 RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
 
@@ -100,6 +110,8 @@ public class AdminAddRooms extends Fragment {
                                 roomInfo.put("software", roomSoftware);
                                 roomInfo.put("hardware", roomHardware);
                                 roomInfo.put("available", available);
+                                roomInfo.put("block", block);
+                                roomInfo.put("floor", floor);
 
                                 RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
                                     @Override
