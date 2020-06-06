@@ -13,20 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
+import com.example.roombookingsystem.activities.RegistrationActivity;
+import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class BookRoom extends AppCompatActivity {
 
     private DatabaseReference mRoomsDatabase;
-    private RecyclerView mRoomRecyclerView;
-    private RecyclerView.Adapter mRoomItemAdapter;
-    private RecyclerView.LayoutManager mRoomLayoutManager;
-    private TableLayout mTableLayoutView;
-    TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware;
+    MaterialToolbar toolbar;
+    TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware, tv_block, tv_floor;
     Button btn_book;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
 
     public BookRoom() {
         // Required empty public constructor
@@ -40,7 +40,20 @@ public class BookRoom extends AppCompatActivity {
         tv_roomCapacity = findViewById(R.id.et_room_capacity);
         tv_roomHardware = findViewById(R.id.et_hardware_equipment);
         tv_roomSoftware = findViewById(R.id.et_software_equipment);
+        tv_block = findViewById(R.id.et_block);
+        tv_floor = findViewById(R.id.et_floor);
         btn_book = findViewById(R.id.btn_book);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent staffIntent = new Intent(BookRoom.this, StaffDashboardActivity.class);
+                startActivity(staffIntent);
+            }
+        });
 
         Intent intent = getIntent();
 
@@ -49,11 +62,15 @@ public class BookRoom extends AppCompatActivity {
         roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
         roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
         roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
+        block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
+        floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
 
         tv_roomNo.setText(roomID);
         tv_roomCapacity.setText(roomCapacity);
         tv_roomHardware.setText(roomHardware);
         tv_roomSoftware.setText(roomSoftware);
+        tv_block.setText(block);
+        tv_floor.setText(floor);
 
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
 
