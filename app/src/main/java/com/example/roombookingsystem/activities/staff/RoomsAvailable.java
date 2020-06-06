@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.example.roombookingsystem.R;
@@ -37,11 +38,15 @@ public class RoomsAvailable extends Fragment {
     public static final String ROOM_SOFTWARE = "software";
     public static final String ROOM_HARDWARE = "hardware";
     public static final String ROOM_IS_AVAILABLE = "available";
+    public static final String ROOM_BLOCK = "block";
+    public static final String ROOM_FLOOR = "floor";
+
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;
+
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available;
 
     public RoomsAvailable() {
         // Required empty public constructor
@@ -80,6 +85,8 @@ public class RoomsAvailable extends Fragment {
                     intent.putExtra(ROOM_HARDWARE, room.getHardware());
                     intent.putExtra(ROOM_SOFTWARE, room.getSoftware());
                     intent.putExtra(ROOM_IS_AVAILABLE, room.isAvailable());
+                    intent.putExtra(ROOM_BLOCK, room.getBlock());
+                    intent.putExtra(ROOM_FLOOR, room.getFloor());
                     startActivity(intent);
                 }
             });
@@ -96,7 +103,6 @@ public class RoomsAvailable extends Fragment {
                 if(dataSnapshot.exists()){
 
                     for(DataSnapshot roomList : dataSnapshot.getChildren()){
-
                         getRoomListDbInformation(roomList.getKey());
                     }
 
@@ -119,12 +125,15 @@ public class RoomsAvailable extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 available = dataSnapshot.child("available").getValue().toString();
                 if(dataSnapshot.exists() && available.equals("true")){
+
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
+                    block = dataSnapshot.child("block").getValue().toString();
+                    floor = dataSnapshot.child("floor").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }
