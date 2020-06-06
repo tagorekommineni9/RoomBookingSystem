@@ -1,16 +1,19 @@
 package com.example.roombookingsystem.activities.staff;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
@@ -29,11 +32,16 @@ import java.util.List;
  */
 public class RoomsAvailable extends Fragment {
 
+    public static final String ROOM_ID = "roomno";
+    public static final String ROOM_CAPACITY = "roomcapacity";
+    public static final String ROOM_SOFTWARE = "software";
+    public static final String ROOM_HARDWARE = "hardware";
+    public static final String ROOM_IS_AVAILABLE = "available";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
-    private RecyclerView.Adapter mRoomItemAdapter;
+    private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available;
 
     public RoomsAvailable() {
         // Required empty public constructor
@@ -55,12 +63,27 @@ public class RoomsAvailable extends Fragment {
         mRoomRecyclerView.setHasFixedSize(true);
         mRoomLayoutManager = new LinearLayoutManager(getActivity());
         mRoomRecyclerView.setLayoutManager(mRoomLayoutManager);
-
         mRoomItemAdapter = new RoomsAdapter(getRoomListing(), getActivity());
-
         mRoomRecyclerView.setAdapter(mRoomItemAdapter);
 
         setRoomData();
+
+        if(getRoomListing() != null)
+        {
+            mRoomItemAdapter.setOnItemClickListener(new RoomsAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Rooms room = getRoomListing().get(position);
+                    Intent intent = new Intent(getActivity(), BookRoom.class);
+                    intent.putExtra(ROOM_ID, room.getRoomno());
+                    intent.putExtra(ROOM_CAPACITY, room.getRoomcapacity());
+                    intent.putExtra(ROOM_HARDWARE, room.getHardware());
+                    intent.putExtra(ROOM_SOFTWARE, room.getSoftware());
+                    intent.putExtra(ROOM_IS_AVAILABLE, room.isAvailable());
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void setRoomData() {
@@ -74,7 +97,7 @@ public class RoomsAvailable extends Fragment {
 
                     for(DataSnapshot roomList : dataSnapshot.getChildren()){
 
-                       getRoomListDbInformation(roomList.getKey());
+                        getRoomListDbInformation(roomList.getKey());
                     }
 
                 }
@@ -94,8 +117,8 @@ public class RoomsAvailable extends Fragment {
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-
+                available = dataSnapshot.child("available").getValue().toString();
+                if(dataSnapshot.exists() && available.equals("true")){
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
