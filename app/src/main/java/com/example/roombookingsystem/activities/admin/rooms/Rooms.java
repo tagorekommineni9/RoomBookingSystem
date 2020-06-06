@@ -6,6 +6,8 @@ public class Rooms {
     String roomcapacity;
     String hardware;
     String software;
+    String block;
+    String floor;
     boolean available;
 
 
@@ -49,6 +51,14 @@ public class Rooms {
         this.roomno = roomno;
     }
 
+    public String getBlock() { return block; }
+
+    public void setBlock(String block) { this.block = block; }
+
+    public String getFloor() { return floor; }
+
+    public void setFloor(String floor) { this.floor = floor; }
+
     public Rooms(String roomno, String roomcapacity, String hardware, String software) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
@@ -62,5 +72,15 @@ public class Rooms {
         this.hardware = hardware;
         this.software = software;
         this.available = available;
+    }
+
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.available = available;
+        this.block = block;
+        this.floor = floor;
     }
 }

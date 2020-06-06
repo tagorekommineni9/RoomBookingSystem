@@ -35,11 +35,13 @@ public class AdminAllRooms extends Fragment {
     public static final String ROOM_SOFTWARE = "software";
     public static final String ROOM_HARDWARE = "hardware";
     public static final String ROOM_IS_AVAILABLE = "available";
+    public static final String ROOM_BLOCK = "block";
+    public static final String ROOM_FLOOR = "floor";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;;
     boolean is_Available;
 
     public AdminAllRooms() {
@@ -80,6 +82,8 @@ public class AdminAllRooms extends Fragment {
                     intent.putExtra(ROOM_HARDWARE, room.getHardware());
                     intent.putExtra(ROOM_SOFTWARE, room.getSoftware());
                     intent.putExtra(ROOM_IS_AVAILABLE, String.valueOf(room.isAvailable()));
+                    intent.putExtra(ROOM_BLOCK, room.getBlock());
+                    intent.putExtra(ROOM_FLOOR, room.getFloor());
                     startActivity(intent);
                 }
             });
@@ -123,11 +127,13 @@ public class AdminAllRooms extends Fragment {
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
                     available = dataSnapshot.child("available").getValue().toString();
+                    block = dataSnapshot.child("block").getValue().toString();
+                    floor = dataSnapshot.child("floor").getValue().toString();
                     if(available.equals("true"))
                         is_Available = true;
                     else
                         is_Available = false;
-                    Rooms roomObj = new Rooms(roomID,roomCapacity, roomHardware, roomSoftware, is_Available);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity, roomHardware, roomSoftware, is_Available, block, floor);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }
