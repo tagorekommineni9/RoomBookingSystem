@@ -33,7 +33,7 @@ public class AdminAvailableRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available,  block, floor;
 
     public AdminAvailableRooms() {
         // Required empty public constructor
@@ -95,12 +95,15 @@ public class AdminAvailableRooms extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 available = dataSnapshot.child("available").getValue().toString();
                 if(dataSnapshot.exists() && available.equals("true")){
+
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
+                    block = dataSnapshot.child("block").getValue().toString();
+                    floor = dataSnapshot.child("floor").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }
