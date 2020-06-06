@@ -27,10 +27,10 @@ import java.util.List;
 public class AdminModifyRoom extends AppCompatActivity {
 
     private DatabaseReference mRoomsDatabase;
-    EditText ev_roomNo, ev_roomCapacity, ev_roomHardware, ev_roomSoftware;
+    EditText ev_roomNo, ev_roomCapacity, ev_roomHardware, ev_roomSoftware, mBlock, mFloor;
     Spinner sp_available;
     Button btn_done;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
     int spinnerPosition = 0;
 
     @Override
