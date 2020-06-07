@@ -56,8 +56,6 @@ public class UserLoginActivity extends AppCompatActivity {
 
                     userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getUid());
 
-
-
                     userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

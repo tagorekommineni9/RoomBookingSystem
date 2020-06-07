@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class AdminAddRooms extends Fragment {
 
-    EditText mRoomNo, mRoomCapavity, mSoftwareEquip, mHardwareEquip, mBlock, mFloor;;
+    EditText mRoomNo, mRoomCapavity, mSoftwareEquip, mHardwareEquip, mBlock, mFloor;
     Button mAdd;
     String roomNo, roomCapacity, roomSoftware, roomHardware, block, floor;;
     DatabaseReference RoomDb;
