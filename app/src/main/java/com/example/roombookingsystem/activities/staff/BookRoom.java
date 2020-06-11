@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -38,7 +39,7 @@ public class BookRoom extends AppCompatActivity {
     private DatabaseReference mRoomsDatabase;
     MaterialToolbar toolbar;
     TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware, tv_block, tv_floor;
-    Button btn_book, btn_duration;
+    Button btn_book;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
     String dateFlag = "";
     Spinner startTimeSpinner, endTimeSpinner;
@@ -71,7 +72,6 @@ public class BookRoom extends AppCompatActivity {
         startTimeSpinner = (Spinner) findViewById(R.id.spinnerStartTime);
         endTimeSpinner = (Spinner) findViewById(R.id.spinnerEndTime);
         mDuration = findViewById(R.id.et_duration);
-        btn_duration = findViewById(R.id.btn_duration);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -145,7 +145,7 @@ public class BookRoom extends AppCompatActivity {
         startTimeSpinner.setSelection(0);
         endTimeSpinner.setSelection(0);
 
-        btn_duration.setOnClickListener(new View.OnClickListener() {
+        /*btn_duration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 start = startTimeSpinner.getSelectedItem().toString();
@@ -154,6 +154,29 @@ public class BookRoom extends AppCompatActivity {
                 endSplit = end.split(":");
                 durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
                 mDuration.setText("" +durationTime);
+            }
+        });*/
+
+        endTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                start = startTimeSpinner.getSelectedItem().toString();
+                if(start != null)
+                {
+                    startSplit = start.split(":");
+                    end = endTimeSpinner.getSelectedItem().toString();
+                    endSplit = end.split(":");
+                    durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
+                    mDuration.setText("" +durationTime);
+                }
+                else {
+                    Toast.makeText(BookRoom.this, "Please select the start time", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
