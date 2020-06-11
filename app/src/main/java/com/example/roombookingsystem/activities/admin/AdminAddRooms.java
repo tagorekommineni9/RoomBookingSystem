@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
@@ -24,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,9 +35,11 @@ import java.util.Map;
  */
 public class AdminAddRooms extends Fragment {
 
-    EditText mRoomNo, mRoomCapavity, mSoftwareEquip, mHardwareEquip, mBlock, mFloor;
+    EditText mRoomNo, mBlock, mFloor;
     Button mAdd;
-    String roomNo, roomCapacity, roomSoftware, roomHardware, block, floor;;
+    String roomNo, roomCapacity, roomSoftware, roomHardware, block, floor;
+    Spinner sp_capacity;
+    MultiSelectionSpinner sp_hardware, sp_software;
     DatabaseReference RoomDb;
 
     public AdminAddRooms() {
@@ -54,50 +59,87 @@ public class AdminAddRooms extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mRoomNo = view.findViewById(R.id.et_room_no);
-        mRoomCapavity = view.findViewById(R.id.et_room_capacity);
-        mSoftwareEquip = view.findViewById(R.id.et_software_equipment);
-        mHardwareEquip = view.findViewById(R.id.et_hardware_equipment);
+        sp_capacity = (Spinner) view.findViewById(R.id.spinnerCapacity);
+        sp_software = (MultiSelectionSpinner) view.findViewById(R.id.spinnerSoftware);
+        sp_hardware = (MultiSelectionSpinner) view.findViewById(R.id.spinnerHardware);
         mBlock = view.findViewById(R.id.et_block);
         mFloor = view.findViewById(R.id.et_floor);
-
         mAdd = view.findViewById(R.id.btn_add);
+
+        ArrayList<Integer> capacityList = new ArrayList<>();
+        capacityList.add(5);
+        capacityList.add(10);
+        capacityList.add(15);
+        capacityList.add(20);
+        capacityList.add(25);
+        capacityList.add(30);
+        capacityList.add(35);
+        capacityList.add(40);
+        capacityList.add(45);
+        capacityList.add(50);
+        ArrayAdapter<Integer> endAdapter =
+                new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_spinner_dropdown_item, capacityList);
+        endAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_capacity.setAdapter(endAdapter);
+
+        ArrayList<Item> softwareItems = new ArrayList<>();
+        softwareItems.add(Item.builder().name("Java").value(false).build());
+        softwareItems.add(Item.builder().name("Android").value(false).build());
+        softwareItems.add(Item.builder().name("Kotlin").value(false).build());
+        sp_software.setItems(softwareItems);
+
+        ArrayList<Item> hardwareItems = new ArrayList<>();
+        hardwareItems.add(Item.builder().name("Mouse").value(false).build());
+        hardwareItems.add(Item.builder().name("Keyboard").value(false).build());
+        hardwareItems.add(Item.builder().name("Laptop").value(false).build());
+        sp_hardware.setItems(hardwareItems);
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(mRoomNo.getText().toString())) {
                     mRoomNo.setError("Enter Room Number");
-                } else if (TextUtils.isEmpty(mRoomCapavity.getText().toString())) {
-                    mRoomCapavity.setError("Enter Room Capavity");
-                } else if (TextUtils.isEmpty(mSoftwareEquip.getText().toString())) {
-                    mSoftwareEquip.setError("Enter Software Equipment");
-                } else if (TextUtils.isEmpty(mHardwareEquip.getText().toString())) {
-                    mHardwareEquip.setError("Enter Hardware Equipment");
                 } else if (TextUtils.isEmpty(mBlock.getText().toString())) {
                     mBlock.setError("Enter Block");
                 } else if (TextUtils.isEmpty(mFloor.getText().toString())) {
                     mFloor.setError("Enter Floor");
                 }
                 else {
-
-
-                    roomNo = mRoomNo.getText().toString();
-                    roomCapacity = mRoomCapavity.getText().toString();
-                    roomSoftware = mSoftwareEquip.getText().toString();
-                    roomHardware = mHardwareEquip.getText().toString();
-                    block = mBlock.getText().toString();
-                    floor = mFloor.getText().toString();
-
-                    Query query = FirebaseDatabase.getInstance().getReference().child("rooms").orderByChild("roomno").equalTo(roomNo);
+                    Query query = FirebaseDatabase.getInstance().getReference().child("rooms").orderByChild("roomno").equalTo(mRoomNo.getText().toString());
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!dataSnapshot.exists()) {
                                 //create new user
+                                String hardwares= "", softwares ="";
+                                int countS = 0, countH = 0;
+                                ArrayList<Item> softwareList = new ArrayList<>();
+                                softwareList = sp_software.getSelectedItems();
+                                for (Item softwareItem: softwareList) {
+                                    if(countS ==0) {
+                                        softwares += softwareItem.getName();
+                                        countS++;
+                                    }
+                                    else
+                                    {
+                                        softwares += ", " + softwareItem.getName();
+                                    }
+                                }
+                                ArrayList<Item> hardwareList = new ArrayList<>();
+                                hardwareList = sp_hardware.getSelectedItems();
+                                for (Item hardwareItem: hardwareList) {
+                                    if(countH==0) {
+                                        hardwares += hardwareItem.getName();
+                                        countH++;
+                                    }
+                                    else {
+                                        hardwares += ", " + hardwareItem.getName();
+                                    }
+                                }
                                 roomNo = mRoomNo.getText().toString();
-                                roomCapacity = mRoomCapavity.getText().toString();
-                                roomSoftware = mSoftwareEquip.getText().toString();
-                                roomHardware = mHardwareEquip.getText().toString();
+                                roomCapacity = sp_capacity.getSelectedItem().toString();
+                                roomSoftware = softwares;
+                                roomHardware = hardwares;
                                 block = mBlock.getText().toString();
                                 floor = mFloor.getText().toString();
                                 Boolean available = true;
@@ -126,7 +168,7 @@ public class AdminAddRooms extends Fragment {
                             }
                             else
                             {
-                                Toast.makeText(getContext(), "Room number already exists", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Room number already exists", Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -135,7 +177,6 @@ public class AdminAddRooms extends Fragment {
 
                         }
                     });
-
                 }
             }
         });
