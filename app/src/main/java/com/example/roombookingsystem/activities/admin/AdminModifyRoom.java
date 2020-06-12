@@ -16,8 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
+import com.example.roombookingsystem.activities.RegistrationActivity;
+import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.example.roombookingsystem.activities.staff.RoomsAvailable;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +35,7 @@ public class AdminModifyRoom extends AppCompatActivity {
     Button btn_done;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
     int spinnerPosition = 0;
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,18 @@ public class AdminModifyRoom extends AppCompatActivity {
         ev_roomHardware = findViewById(R.id.et_hardware_equipment);
         ev_roomSoftware = findViewById(R.id.et_software_equipment);
         btn_done = findViewById(R.id.btn_done);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent staffIntent = new Intent(AdminModifyRoom.this, UserLoginActivity.class);
+
+                startActivity(staffIntent);
+            }
+        });
 
         Intent intent = getIntent();
 

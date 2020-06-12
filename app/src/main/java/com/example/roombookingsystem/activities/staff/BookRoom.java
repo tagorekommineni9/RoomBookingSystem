@@ -145,17 +145,29 @@ public class BookRoom extends AppCompatActivity {
         startTimeSpinner.setSelection(0);
         endTimeSpinner.setSelection(0);
 
-        /*btn_duration.setOnClickListener(new View.OnClickListener() {
+        startTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                start = startTimeSpinner.getSelectedItem().toString();
-                startSplit = start.split(":");
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 end = endTimeSpinner.getSelectedItem().toString();
-                endSplit = end.split(":");
-                durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
-                mDuration.setText("" +durationTime);
+                if(end != null)
+                {
+                    endSplit = end.split(":");
+                    start = startTimeSpinner.getSelectedItem().toString();
+                    startSplit = start.split(":");
+                    durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
+                    mDuration.setText("" +durationTime);
+                }
+                else {
+                    Toast.makeText(BookRoom.this, "Please select the end time", Toast.LENGTH_SHORT).show();
+                }
             }
-        });*/
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         endTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
