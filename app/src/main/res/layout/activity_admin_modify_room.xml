@@ -6,20 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".activities.admin.AdminModifyRoom">
 
-    <TextView
+
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit room"
-        android:textSize="32sp"
-        android:textAllCaps="true"
-        android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#fff"
+        app:title="Edit Room Details"
+        app:navigationIcon="@drawable/ic_back"
+        android:layout_marginBottom="32dp"
         />
 
     <TableLayout
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -219,11 +219,9 @@
         </TableRow>
 
 
-
-
         <Button
             android:id="@+id/btn_done"
-            android:text="Done"
+            android:text="Modify"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="120dp"
