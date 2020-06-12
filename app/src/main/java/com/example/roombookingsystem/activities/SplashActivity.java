@@ -53,11 +53,23 @@ public class SplashActivity extends AppCompatActivity {
                                 userType =  dataSnapshot.child("type").getValue(String.class);
                                 if(userType.equals("staff"))
                                 {
-                                    staffDashBoard();
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            staffDashBoard();
+                                            finish();
+                                        }
+                                    }, TIMER);
+                                    //staffDashBoard();
                                 }
                                 else if (userType.equals("admin"))
                                 {
-                                    adminDashBoard();
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            adminDashBoard();
+                                            finish();
+                                        }
+                                    }, TIMER);
+
                                 }
 
                             }
