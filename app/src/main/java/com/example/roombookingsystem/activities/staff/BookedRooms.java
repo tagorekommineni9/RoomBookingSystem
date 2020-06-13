@@ -17,6 +17,7 @@ import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminModifyRoom;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,7 @@ public class BookedRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -59,6 +60,8 @@ public class BookedRooms extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mRoomRecyclerView = getView().findViewById(R.id.recycler_all_rooms);
         mRoomRecyclerView.setNestedScrollingEnabled(false);
@@ -91,7 +94,7 @@ public class BookedRooms extends Fragment {
     }
 
     private void setRoomData() {
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("rooms");
+        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings").child(currentId);
 
         mRoomsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,8 +124,7 @@ public class BookedRooms extends Fragment {
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                available = dataSnapshot.child("available").getValue().toString();
-                if(dataSnapshot.exists() && available.equals("false")){
+
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
@@ -133,7 +135,7 @@ public class BookedRooms extends Fragment {
                     Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
-                }
+
             }
 
             @Override
