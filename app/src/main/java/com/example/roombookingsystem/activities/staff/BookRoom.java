@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
+import com.example.roombookingsystem.activities.admin.Item;
+import com.example.roombookingsystem.activities.admin.MultiSelectionSpinner;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,7 @@ public class BookRoom extends AppCompatActivity {
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
     String dateFlag = "", currentId;
     Spinner startTimeSpinner, endTimeSpinner;
+    MultiSelectionSpinner sp_hardware, sp_software;
     private TextView mDate, mDuration;
     private EditText end_error, start_error;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -69,6 +72,32 @@ public class BookRoom extends AppCompatActivity {
         mDuration = findViewById(R.id.et_duration);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //software and hardware
+        sp_software = findViewById(R.id.spinnerSoftware);
+        sp_hardware = findViewById(R.id.spinnerHardware);
+
+        ArrayList<Item> softwareItems = new ArrayList<>();
+        softwareItems.add(Item.builder().name("Java").value(false).build());
+        softwareItems.add(Item.builder().name("Android").value(false).build());
+        softwareItems.add(Item.builder().name("Kotlin").value(false).build());
+        softwareItems.add(Item.builder().name("My Sql Workbench").value(false).build());
+        softwareItems.add(Item.builder().name("Git").value(false).build());
+        softwareItems.add(Item.builder().name("Intelli J").value(false).build());
+        softwareItems.add(Item.builder().name("Net Beans").value(false).build());
+        softwareItems.add(Item.builder().name("Microsoft Office").value(false).build());
+        sp_software.setItems(softwareItems);
+
+        ArrayList<Item> hardwareItems = new ArrayList<>();
+        hardwareItems.add(Item.builder().name("Mouse").value(false).build());
+        hardwareItems.add(Item.builder().name("Keyboard").value(false).build());
+        hardwareItems.add(Item.builder().name("Laptop").value(false).build());
+        hardwareItems.add(Item.builder().name("Monitor").value(false).build());
+        hardwareItems.add(Item.builder().name("Projector").value(false).build());
+        hardwareItems.add(Item.builder().name("Cable Wire").value(false).build());
+        hardwareItems.add(Item.builder().name("Usb").value(false).build());
+        hardwareItems.add(Item.builder().name("Web Cam").value(false).build());
+        sp_hardware.setItems(hardwareItems);
 
         //current logged in user id
         currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -233,6 +262,42 @@ public class BookRoom extends AppCompatActivity {
         btn_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Get Software and hardware details
+                String hardwares= "", softwares ="";
+                int countS = 0, countH = 0;
+                ArrayList<Item> softwareList = new ArrayList<>();
+                softwareList = sp_software.getSelectedItems();
+                for (Item softwareItem: softwareList) {
+                    if(countS ==0) {
+                        softwares += softwareItem.getName();
+                        countS++;
+                    }
+                    else
+                    {
+                        softwares += ", " + softwareItem.getName();
+                    }
+                }
+                ArrayList<Item> hardwareList = new ArrayList<>();
+                hardwareList = sp_hardware.getSelectedItems();
+                for (Item hardwareItem: hardwareList) {
+                    if(countH==0) {
+                        hardwares += hardwareItem.getName();
+                        countH++;
+                    }
+                    else {
+                        hardwares += ", " + hardwareItem.getName();
+                    }
+                }
+
+                roomSoftware = softwares;
+                roomHardware = hardwares;
+
+                if(roomHardware.equals("") || roomSoftware.equals(""))
+                {
+                    Toast.makeText(BookRoom.this, "Select Hardware and software", Toast.LENGTH_LONG).show();
+                }
+
                 if(mDuration.getText().toString().equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Click duration button to confirm no of hours", Toast.LENGTH_LONG).show();
@@ -277,6 +342,7 @@ public class BookRoom extends AppCompatActivity {
 
                         Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                 }
