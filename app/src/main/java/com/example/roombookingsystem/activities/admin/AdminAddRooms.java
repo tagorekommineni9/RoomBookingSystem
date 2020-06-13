@@ -86,13 +86,24 @@ public class AdminAddRooms extends Fragment {
         softwareItems.add(Item.builder().name("Java").value(false).build());
         softwareItems.add(Item.builder().name("Android").value(false).build());
         softwareItems.add(Item.builder().name("Kotlin").value(false).build());
+        softwareItems.add(Item.builder().name("My Sql Workbench").value(false).build());
+        softwareItems.add(Item.builder().name("Git").value(false).build());
+        softwareItems.add(Item.builder().name("Intelli J").value(false).build());
+        softwareItems.add(Item.builder().name("Net Beans").value(false).build());
+        softwareItems.add(Item.builder().name("Microsoft Office").value(false).build());
         sp_software.setItems(softwareItems);
 
         ArrayList<Item> hardwareItems = new ArrayList<>();
         hardwareItems.add(Item.builder().name("Mouse").value(false).build());
         hardwareItems.add(Item.builder().name("Keyboard").value(false).build());
         hardwareItems.add(Item.builder().name("Laptop").value(false).build());
+        hardwareItems.add(Item.builder().name("Monitor").value(false).build());
+        hardwareItems.add(Item.builder().name("Projector").value(false).build());
+        hardwareItems.add(Item.builder().name("Cable Wire").value(false).build());
+        hardwareItems.add(Item.builder().name("Usb").value(false).build());
+        hardwareItems.add(Item.builder().name("Web Cam").value(false).build());
         sp_hardware.setItems(hardwareItems);
+
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +158,7 @@ public class AdminAddRooms extends Fragment {
                                 RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
 
                                 Map roomInfo = new HashMap<>();
+
                                 roomInfo.put("roomno", roomNo);
                                 roomInfo.put("roomcapacity", roomCapacity);
                                 roomInfo.put("software", roomSoftware);
