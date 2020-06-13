@@ -38,11 +38,12 @@ public class AdminAllRooms extends Fragment {
     public static final String ROOM_IS_AVAILABLE = "available";
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
+    public static final String ROOM_STAFF = "staff";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor,url;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor,url, staff;
     boolean is_Available;
 
     public AdminAllRooms() {
@@ -85,6 +86,7 @@ public class AdminAllRooms extends Fragment {
                     intent.putExtra(ROOM_IS_AVAILABLE, String.valueOf(room.isAvailable()));
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
+                    intent.putExtra(ROOM_STAFF, room.getStaffname());
                     startActivity(intent);
                 }
             });
