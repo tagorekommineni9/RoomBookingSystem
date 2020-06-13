@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.roombookingsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
     private List<Rooms> RoomList;
     Context context;
     private OnItemClickListener mListener;
+    private DatabaseReference mBookingsDatabase;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -47,7 +51,7 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RoomsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RoomsViewHolder holder, final int position) {
 
         holder.mSoftware.setText(RoomList.get(position).getSoftware());
         holder.mHardware.setText(RoomList.get(position).getHardware());
@@ -59,6 +63,33 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
         if(!RoomList.get(position).getUrl().equals("default")){
             Glide.with(context).load(RoomList.get(position).getUrl()).into(holder.mRoomImage);
         }
+
+        mBookingsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
+        mBookingsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(RoomList.get(position).getRoomno()).exists()){
+                    holder.mTableLayout.setVisibility(View.VISIBLE);
+                    holder.mStaffName.setText(RoomList.get(position).getStaffname());
+                }
+                else {
+                    holder.mTableLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*if(!RoomList.get(position).getStaffname()){
+
+            holder.mStaffName.setText(RoomList.get(position).getStaffname());
+        }
+        else {
+            holder.mTableLayout.setVisibility(View.GONE);
+        }*/
 
     }
 

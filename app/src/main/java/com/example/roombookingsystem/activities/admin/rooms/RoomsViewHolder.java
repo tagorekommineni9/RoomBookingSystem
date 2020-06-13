@@ -4,6 +4,7 @@ import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,10 @@ import com.example.roombookingsystem.R;
 public class RoomsViewHolder extends RecyclerView.ViewHolder {
 
 
-    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor;
+    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor, mStaffName;
     Spinner mAvailable;
     ImageView mRoomImage;
+    TableRow mTableLayout;
 
 
     public RoomsViewHolder(@NonNull View itemView, final RoomsAdapter.OnItemClickListener listener) {
@@ -29,6 +31,8 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
         mBlock = itemView.findViewById(R.id.tv_block);
         mFloor = itemView.findViewById(R.id.tv_floor);
         mRoomImage = itemView.findViewById(R.id.image_btn);
+        mStaffName = itemView.findViewById(R.id.tv_staff_name);
+        mTableLayout = itemView.findViewById(R.id.staff_layout);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

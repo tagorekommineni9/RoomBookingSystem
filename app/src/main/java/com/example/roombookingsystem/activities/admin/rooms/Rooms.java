@@ -10,6 +10,16 @@ public class Rooms {
     String floor;
     boolean available;
 
+    public String getStaffname() {
+        return staffname;
+    }
+
+    public void setStaffname(String staffname) {
+        this.staffname = staffname;
+    }
+
+    String staffname;
+
     public String getUrl() {
         return url;
     }
@@ -95,6 +105,18 @@ public class Rooms {
         this.url = url;
     }
 
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String url, String staffname) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.block = block;
+        this.floor = floor;
+        this.available = available;
+        this.url = url;
+        this.staffname = staffname;
+    }
+
     public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
@@ -114,6 +136,17 @@ public class Rooms {
         this.block = block;
         this.floor = floor;
         this.url = url;
+    }
+
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url, String staffname) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.block = block;
+        this.floor = floor;
+        this.url = url;
+        this.staffname = staffname;
     }
 
 }
