@@ -1,8 +1,6 @@
 package com.example.roombookingsystem.activities.staff;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,15 +15,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
-import com.example.roombookingsystem.activities.RegistrationActivity;
-import com.example.roombookingsystem.activities.UserLoginActivity;
-import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,12 +31,12 @@ import java.util.Map;
 
 public class BookRoom extends AppCompatActivity {
 
-    private DatabaseReference mRoomsDatabase;
+    private DatabaseReference mRoomsDatabase, mBookingsDatabase, mUserDatabase,mBookingTableDatabase;
     MaterialToolbar toolbar;
     TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware, tv_block, tv_floor;
     Button btn_book;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
-    String dateFlag = "";
+    String dateFlag = "", currentId;
     Spinner startTimeSpinner, endTimeSpinner;
     private TextView mDate, mDuration;
     private EditText end_error, start_error;
@@ -74,6 +69,9 @@ public class BookRoom extends AppCompatActivity {
         mDuration = findViewById(R.id.et_duration);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //current logged in user id
+        currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         //Time and Duration
@@ -205,11 +203,14 @@ public class BookRoom extends AppCompatActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year,month,day);
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 dateFlag = "start";
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
+
+
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -222,8 +223,13 @@ public class BookRoom extends AppCompatActivity {
             }
         };
 
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
+        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomID);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        mBookingTableDatabase = FirebaseDatabase.getInstance().getReference("bookings");
+        mBookingsDatabase = FirebaseDatabase.getInstance().getReference("users").child(currentId).child("bookings");
 
+
+        //Set bookId to the staff
         btn_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,14 +237,44 @@ public class BookRoom extends AppCompatActivity {
                 {
                     Toast.makeText(BookRoom.this, "Click duration button to confirm no of hours", Toast.LENGTH_LONG).show();
                 }
-                else {
+                else if(mDate.getText().toString().equals(""))
+                {
+                    Toast.makeText(BookRoom.this, "Select Date", Toast.LENGTH_LONG).show();
+                }
+                else
+                    {
                     int hours = Integer.parseInt(mDuration.getText().toString());
                     if (hours <= 0) {
                         Toast.makeText(BookRoom.this, "End time should be more than start time", Toast.LENGTH_LONG).show();
                     } else {
+
+                       // String key = mBookingsDatabase.push().getKey();
+
+                        mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
+                        DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(currentId).child(roomID);
+
+                        //Map to get values from Rooms database, Store to strings, push to bookings db, make roomsdb not availble
+                        HashMap<String,Object> bookingsMap = new HashMap<>();
+
+                        bookingsMap.put("roomno",roomID);
+                        bookingsMap.put("available",false);
+                        bookingsMap.put("block",block);
+                        bookingsMap.put("floor",floor);
+                        bookingsMap.put("hardware",roomHardware);
+                        bookingsMap.put("software",roomSoftware);
+                        bookingsMap.put("roomcapacity",roomCapacity);
+                        bookingsMap.put("duration",hours);
+                        bookingsMap.put("bookingDate",mDate.getText().toString());
+
                         mRoomsDatabase.child("available").setValue(false);
-                        mRoomsDatabase.child("duration").setValue(hours);
-                        mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
+                        //mRoomsDatabase.child("duration").setValue(hours);
+                        //mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
+
+                        //create bookings table with all room information
+                        bookingReference.updateChildren(bookingsMap);
+
+
+
                         Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
                         startActivity(intent);
@@ -247,4 +283,5 @@ public class BookRoom extends AppCompatActivity {
             }
         });
     }
+
 }
