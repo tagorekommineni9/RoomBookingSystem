@@ -266,7 +266,7 @@ public class BookRoom extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 staffName = dataSnapshot.child(currentId).child("name").getValue().toString();
-                Toast.makeText(BookRoom.this, staffName, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -347,6 +347,7 @@ public class BookRoom extends AppCompatActivity {
                         bookingsMap.put("software",roomSoftware);
                         bookingsMap.put("roomcapacity",roomCapacity);
                         bookingsMap.put("staff",staffName);
+                        bookingsMap.put("staffId",currentId);
                         bookingsMap.put("duration",hours);
                         bookingsMap.put("roomimage",url);
                         bookingsMap.put("bookingDate",mDate.getText().toString());

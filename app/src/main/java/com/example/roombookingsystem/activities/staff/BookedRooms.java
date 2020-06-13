@@ -41,11 +41,12 @@ public class BookedRooms extends Fragment {
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_IMAGE = "roomimage";
+    public static final String ROOM_STAFF_ID = "staffId";
     private DatabaseReference mRoomsDatabase, mUserDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName, staffId;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -105,6 +106,7 @@ public class BookedRooms extends Fragment {
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
                     intent.putExtra(ROOM_IMAGE, room.getUrl());
+                    intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
                     startActivity(intent);
                 }
             });
@@ -151,14 +153,14 @@ public class BookedRooms extends Fragment {
                     floor = dataSnapshot.child("floor").getValue().toString();
                     url  = dataSnapshot.child("roomimage").getValue().toString();
                     staff  = dataSnapshot.child("staff").getValue().toString();
+                    staffId = dataSnapshot.child("staffId").getValue().toString();
 
                     //Get current staff name
 
                 if(currentUserName.equals(staff)){
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url, staff);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
-
                 }
 
             }
