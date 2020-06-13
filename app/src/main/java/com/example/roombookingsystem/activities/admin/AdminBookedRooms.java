@@ -39,6 +39,7 @@ public class AdminBookedRooms extends Fragment {
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_STAFF = "staff";
+    public static final String ROOM_STAFF_ID = "staffId";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
@@ -86,6 +87,8 @@ public class AdminBookedRooms extends Fragment {
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
                     intent.putExtra(ROOM_STAFF, room.getStaffname());
+                    intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
+
                     startActivity(intent);
                 }
             });
@@ -133,8 +136,9 @@ public class AdminBookedRooms extends Fragment {
                     floor = dataSnapshot.child("floor").getValue().toString();
                     url  = dataSnapshot.child("roomimage").getValue().toString();
                     staff_name  = dataSnapshot.child("staff").getValue().toString();
+                    staff_id  = dataSnapshot.child("staffId").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

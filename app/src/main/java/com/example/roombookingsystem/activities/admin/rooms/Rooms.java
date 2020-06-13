@@ -19,6 +19,15 @@ public class Rooms {
     }
 
     String staffname;
+    String staffId;
+
+    public String getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
+    }
 
     public String getUrl() {
         return url;
@@ -136,6 +145,18 @@ public class Rooms {
         this.block = block;
         this.floor = floor;
         this.url = url;
+    }
+
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url, String staffname, String staffId) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.block = block;
+        this.floor = floor;
+        this.url = url;
+        this.staffname = staffname;
+        this.staffId = staffId;
     }
 
     public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url, String staffname) {
