@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminModifyRoom;
@@ -40,11 +41,11 @@ public class BookedRooms extends Fragment {
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_IMAGE = "roomimage";
-    private DatabaseReference mRoomsDatabase;
+    private DatabaseReference mRoomsDatabase, mUserDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -71,6 +72,21 @@ public class BookedRooms extends Fragment {
         mRoomRecyclerView.setLayoutManager(mRoomLayoutManager);
         mRoomItemAdapter = new RoomsAdapter(getRoomListing(), getActivity());
         mRoomRecyclerView.setAdapter(mRoomItemAdapter);
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+
+        mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUserName = dataSnapshot.child(currentId).child("name").getValue().toString();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         setRoomData();
 
@@ -136,10 +152,14 @@ public class BookedRooms extends Fragment {
                     url  = dataSnapshot.child("roomimage").getValue().toString();
                     staff  = dataSnapshot.child("staff").getValue().toString();
 
+                    //Get current staff name
 
-                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url, staff);
+                if(currentUserName.equals(staff)){
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url, staff);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
+
+                }
 
             }
 
