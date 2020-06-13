@@ -42,7 +42,7 @@ public class AdminAllRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor,url;
     boolean is_Available;
 
     public AdminAllRooms() {
@@ -130,11 +130,12 @@ public class AdminAllRooms extends Fragment {
                     available = dataSnapshot.child("available").getValue().toString();
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
+                    url = dataSnapshot.child("roomimage").getValue().toString();
                     if(available.equals("true"))
                         is_Available = true;
                     else
                         is_Available = false;
-                    Rooms roomObj = new Rooms(roomID,roomCapacity, roomHardware, roomSoftware, is_Available, block, floor);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity, roomHardware, roomSoftware, is_Available, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

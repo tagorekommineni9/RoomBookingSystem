@@ -42,7 +42,7 @@ public class AdminBookedRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, url;
 
     public AdminBookedRooms() {
         // Required empty public constructor
@@ -91,7 +91,7 @@ public class AdminBookedRooms extends Fragment {
     }
 
     private void setRoomData() {
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("rooms");
+        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
 
         mRoomsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -129,8 +129,9 @@ public class AdminBookedRooms extends Fragment {
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
+                    url  = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

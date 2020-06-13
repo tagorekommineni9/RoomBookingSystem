@@ -33,7 +33,7 @@ public class AdminAvailableRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available,  block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available,  block, floor,url;
 
     public AdminAvailableRooms() {
         // Required empty public constructor
@@ -102,8 +102,9 @@ public class AdminAvailableRooms extends Fragment {
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
+                    url = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

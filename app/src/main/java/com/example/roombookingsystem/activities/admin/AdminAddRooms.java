@@ -1,11 +1,16 @@
 package com.example.roombookingsystem.activities.admin;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +18,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
+import com.example.roombookingsystem.activities.RegistrationActivity;
+import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +35,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +56,11 @@ public class AdminAddRooms extends Fragment {
     Spinner sp_capacity;
     MultiSelectionSpinner sp_hardware, sp_software;
     DatabaseReference RoomDb;
+
+    //Add class Image
+    Uri RoomResultUri;
+    ImageView classRoomImage;
+    String classImageUrl;
 
     public AdminAddRooms() {
         // Required empty public constructor
@@ -65,6 +85,7 @@ public class AdminAddRooms extends Fragment {
         mBlock = view.findViewById(R.id.et_block);
         mFloor = view.findViewById(R.id.et_floor);
         mAdd = view.findViewById(R.id.btn_add);
+        classRoomImage = view.findViewById(R.id.add_image_btn);
 
         ArrayList<Integer> capacityList = new ArrayList<>();
         capacityList.add(5);
@@ -104,6 +125,14 @@ public class AdminAddRooms extends Fragment {
         hardwareItems.add(Item.builder().name("Web Cam").value(false).build());
         sp_hardware.setItems(hardwareItems);
 
+        classRoomImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+            }
+        });
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +150,7 @@ public class AdminAddRooms extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(!dataSnapshot.exists()) {
+
                                 //create new user
                                 String hardwares= "", softwares ="";
                                 int countS = 0, countH = 0;
@@ -157,7 +187,7 @@ public class AdminAddRooms extends Fragment {
 
                                 RoomDb = FirebaseDatabase.getInstance().getReference().child("rooms").child(roomNo);
 
-                                Map roomInfo = new HashMap<>();
+                                final Map roomInfo = new HashMap<>();
 
                                 roomInfo.put("roomno", roomNo);
                                 roomInfo.put("roomcapacity", roomCapacity);
@@ -167,20 +197,73 @@ public class AdminAddRooms extends Fragment {
                                 roomInfo.put("block", block);
                                 roomInfo.put("floor", floor);
 
+                                //add Image to database
+                                if (RoomResultUri != null) {
+
+                                    StorageReference filepath = FirebaseStorage.getInstance().getReference().child("class_images").child(roomNo);
+
+                                    Bitmap bitmap = null;
+
+                                    try {
+                                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplication().getContentResolver(), RoomResultUri);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+
+                                    byte[] data = baos.toByteArray();
+
+                                    //uploading the image
+                                    UploadTask uploadTask = filepath.putBytes(data);
+
+                                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            getActivity().finish();
+                                        }
+                                    });
+
+                                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            if (taskSnapshot.getMetadata() != null) {
+                                                if (taskSnapshot.getMetadata().getReference() != null) {
+                                                    Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                                                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            classImageUrl = uri.toString();
+                                                            roomInfo.put("roomimage", classImageUrl);
+                                                            RoomDb.updateChildren(roomInfo);
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+
+                                        }
+                                    });
+
+                                } else {
+                                    classImageUrl = "default";
+                                    roomInfo.put("roomimage", classImageUrl);
+                                }
+
                                 RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if(task.isSuccessful()){
-                                            Toast.makeText(getContext(), "New Room is added successfully!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "New Class room is added", Toast.LENGTH_SHORT).show();
                                         }else {
-                                            Toast.makeText(getContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
-                            }
-                            else
-                            {
-                                Toast.makeText(getActivity(), "Room number already exists", Toast.LENGTH_LONG).show();
+
+                                goToDashboard();
+
                             }
                         }
 
@@ -192,6 +275,27 @@ public class AdminAddRooms extends Fragment {
                 }
             }
         });
+
+    }
+
+    private void goToDashboard() {
+        Intent staffIntent = new Intent(getContext(), AdminDashboardActivity.class);
+        staffIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(staffIntent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //if the intent from activity code is 1
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+
+            final Uri imageUri = data.getData();
+            RoomResultUri = imageUri;
+            classRoomImage.setImageURI(RoomResultUri);
+
+        }
 
     }
 }
