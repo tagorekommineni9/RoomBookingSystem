@@ -19,6 +19,7 @@ import com.example.roombookingsystem.activities.RegistrationActivity;
 import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,14 +28,14 @@ import java.util.List;
 
 public class ModifyBookedRoom extends AppCompatActivity {
 
-    private DatabaseReference mRoomsDatabase;
+    private DatabaseReference mRoomsDatabase,mBookingsDatabase,mUserDatabase;
     private RecyclerView mRoomRecyclerView;
     private RecyclerView.Adapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
     private TableLayout mTableLayoutView;
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
     Button btn_cancel;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
 
     MaterialToolbar toolbar;
 
@@ -43,7 +44,12 @@ public class ModifyBookedRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_booked_room);
 
+
+        currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms");
+        mBookingsDatabase = FirebaseDatabase.getInstance().getReference("bookings").child(currentId);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("users").child(currentId).child("bookings");
 
         mRoomNo = findViewById(R.id.et_room_no);
         mRoomCapacity = findViewById(R.id.et_room_capacity);
@@ -88,6 +94,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //set to available in rooms table
                 String room_no = mRoomNo.getText().toString();
                 String room_capacity = mRoomCapacity.getText().toString();
                 String room_software = mRoomSoftware.getText().toString();
@@ -95,6 +102,12 @@ public class ModifyBookedRoom extends AppCompatActivity {
                 String room_block = mBlock.getText().toString();
                 String room_floor = mFloor.getText().toString();
                 updateRoom(room_no, room_capacity, room_software, room_hardware, true, room_block, room_floor);
+
+                //remove from bookings table
+                mBookingsDatabase.child(room_no).removeValue();
+                //remove from users table
+                mUserDatabase.child(room_no).removeValue();
+
                 Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
                 startActivity(intent);
             }
