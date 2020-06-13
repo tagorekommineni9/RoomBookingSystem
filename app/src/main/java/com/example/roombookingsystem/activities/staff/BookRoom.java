@@ -1,5 +1,6 @@
 package com.example.roombookingsystem.activities.staff;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -23,8 +24,11 @@ import com.example.roombookingsystem.activities.admin.Item;
 import com.example.roombookingsystem.activities.admin.MultiSelectionSpinner;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +41,7 @@ public class BookRoom extends AppCompatActivity {
     MaterialToolbar toolbar;
     TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware, tv_block, tv_floor;
     Button btn_book;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url, staffName;
     String dateFlag = "", currentId;
     Spinner startTimeSpinner, endTimeSpinner;
     MultiSelectionSpinner sp_hardware, sp_software;
@@ -258,6 +262,18 @@ public class BookRoom extends AppCompatActivity {
         mBookingTableDatabase = FirebaseDatabase.getInstance().getReference("bookings");
         mBookingsDatabase = FirebaseDatabase.getInstance().getReference("users").child(currentId).child("bookings");
 
+        mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                staffName = dataSnapshot.child(currentId).child("name").getValue().toString();
+                Toast.makeText(BookRoom.this, staffName, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //Set bookId to the staff
         btn_book.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +331,8 @@ public class BookRoom extends AppCompatActivity {
 
                        // String key = mBookingsDatabase.push().getKey();
 
+
+
                         mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
                         DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
 
@@ -328,7 +346,7 @@ public class BookRoom extends AppCompatActivity {
                         bookingsMap.put("hardware",roomHardware);
                         bookingsMap.put("software",roomSoftware);
                         bookingsMap.put("roomcapacity",roomCapacity);
-                        bookingsMap.put("staff",currentId);
+                        bookingsMap.put("staff",staffName);
                         bookingsMap.put("duration",hours);
                         bookingsMap.put("roomimage",url);
                         bookingsMap.put("bookingDate",mDate.getText().toString());

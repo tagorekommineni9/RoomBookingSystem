@@ -44,7 +44,7 @@ public class BookedRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -134,9 +134,10 @@ public class BookedRooms extends Fragment {
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
                     url  = dataSnapshot.child("roomimage").getValue().toString();
+                    staff  = dataSnapshot.child("staff").getValue().toString();
 
 
-                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
+                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url, staff);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
 
