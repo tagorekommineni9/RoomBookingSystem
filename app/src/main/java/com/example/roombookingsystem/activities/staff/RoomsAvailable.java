@@ -40,8 +40,9 @@ public class RoomsAvailable extends Fragment {
     public static final String ROOM_IS_AVAILABLE = "available";
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
+    public static final String ROOM_IMAGE = "roomimage";
 
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor,url;
 
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
@@ -87,6 +88,7 @@ public class RoomsAvailable extends Fragment {
                     intent.putExtra(ROOM_IS_AVAILABLE, room.isAvailable());
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
+                    intent.putExtra(ROOM_IMAGE, room.getUrl());
                     startActivity(intent);
                 }
             });
@@ -132,8 +134,11 @@ public class RoomsAvailable extends Fragment {
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
+                    url  = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
+
+
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

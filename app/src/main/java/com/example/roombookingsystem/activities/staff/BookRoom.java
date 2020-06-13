@@ -37,7 +37,7 @@ public class BookRoom extends AppCompatActivity {
     MaterialToolbar toolbar;
     TextView tv_roomNo, tv_roomCapacity, tv_roomHardware, tv_roomSoftware, tv_block, tv_floor;
     Button btn_book;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url;
     String dateFlag = "", currentId;
     Spinner startTimeSpinner, endTimeSpinner;
     MultiSelectionSpinner sp_hardware, sp_software;
@@ -162,6 +162,7 @@ public class BookRoom extends AppCompatActivity {
         roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
         floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
+        url = intent.getStringExtra(RoomsAvailable.ROOM_IMAGE);
 
         tv_roomNo.setText(roomID);
         tv_roomCapacity.setText(roomCapacity);
@@ -297,8 +298,7 @@ public class BookRoom extends AppCompatActivity {
                 {
                     Toast.makeText(BookRoom.this, "Select Hardware and software", Toast.LENGTH_LONG).show();
                 }
-
-                if(mDuration.getText().toString().equals(""))
+                else if(mDuration.getText().toString().equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Click duration button to confirm no of hours", Toast.LENGTH_LONG).show();
                 }
@@ -316,7 +316,7 @@ public class BookRoom extends AppCompatActivity {
                        // String key = mBookingsDatabase.push().getKey();
 
                         mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
-                        DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(currentId).child(roomID);
+                        DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
 
                         //Map to get values from Rooms database, Store to strings, push to bookings db, make roomsdb not availble
                         HashMap<String,Object> bookingsMap = new HashMap<>();
@@ -328,7 +328,9 @@ public class BookRoom extends AppCompatActivity {
                         bookingsMap.put("hardware",roomHardware);
                         bookingsMap.put("software",roomSoftware);
                         bookingsMap.put("roomcapacity",roomCapacity);
+                        bookingsMap.put("staff",currentId);
                         bookingsMap.put("duration",hours);
+                        bookingsMap.put("roomimage",url);
                         bookingsMap.put("bookingDate",mDate.getText().toString());
 
                         mRoomsDatabase.child("available").setValue(false);

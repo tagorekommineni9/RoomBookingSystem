@@ -39,11 +39,12 @@ public class BookedRooms extends Fragment {
     public static final String ROOM_IS_AVAILABLE = "available";
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
+    public static final String ROOM_IMAGE = "roomimage";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -87,6 +88,7 @@ public class BookedRooms extends Fragment {
                     intent.putExtra(ROOM_IS_AVAILABLE, String.valueOf(room.isAvailable()));
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
+                    intent.putExtra(ROOM_IMAGE, room.getUrl());
                     startActivity(intent);
                 }
             });
@@ -94,7 +96,7 @@ public class BookedRooms extends Fragment {
     }
 
     private void setRoomData() {
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings").child(currentId);
+        mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
 
         mRoomsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -131,8 +133,10 @@ public class BookedRooms extends Fragment {
                     roomHardware = dataSnapshot.child("hardware").getValue().toString();
                     block = dataSnapshot.child("block").getValue().toString();
                     floor = dataSnapshot.child("floor").getValue().toString();
+                    url  = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor);
+
+                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
 
