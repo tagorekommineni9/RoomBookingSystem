@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.roombookingsystem.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,8 +59,8 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
         holder.mBlock.setText(RoomList.get(position).getBlock());
         holder.mFloor.setText(RoomList.get(position).getFloor());
 
-        if(!RoomList.get(position).getUrl().equals("default")){
-            Glide.with(context).load(RoomList.get(position).getUrl()).into(holder.mRoomImage);
+        if(!RoomList.get(position).getRoomimage().equals("default")){
+            Glide.with(context).load(RoomList.get(position).getRoomimage()).into(holder.mRoomImage);
         }
 
         mBookingsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");

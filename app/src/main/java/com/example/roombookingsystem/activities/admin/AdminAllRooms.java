@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
-import com.example.roombookingsystem.activities.staff.BookRoom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +38,7 @@ public class AdminAllRooms extends Fragment {
     public static final String ROOM_BLOCK = "block";
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_STAFF = "staff";
+    public static final String ROOM_IMAGE = "roomimage";
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
@@ -87,6 +87,7 @@ public class AdminAllRooms extends Fragment {
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
                     intent.putExtra(ROOM_STAFF, room.getStaffname());
+                    intent.putExtra(ROOM_IMAGE, room.getRoomimage());
                     startActivity(intent);
                 }
             });

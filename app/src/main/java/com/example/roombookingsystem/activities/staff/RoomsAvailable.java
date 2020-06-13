@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import com.example.roombookingsystem.R;
@@ -88,7 +87,7 @@ public class RoomsAvailable extends Fragment {
                     intent.putExtra(ROOM_IS_AVAILABLE, room.isAvailable());
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
-                    intent.putExtra(ROOM_IMAGE, room.getUrl());
+                    intent.putExtra(ROOM_IMAGE, room.getRoomimage());
                     startActivity(intent);
                 }
             });

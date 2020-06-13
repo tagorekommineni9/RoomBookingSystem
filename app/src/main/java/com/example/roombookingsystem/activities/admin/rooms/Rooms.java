@@ -29,15 +29,15 @@ public class Rooms {
         this.staffId = staffId;
     }
 
-    public String getUrl() {
-        return url;
+    public String getRoomimage() {
+        return roomimage;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setRoomimage(String roomimage) {
+        this.roomimage = roomimage;
     }
 
-    String url;
+    String roomimage;
 
 
     public String getRoomcapacity() {
@@ -103,7 +103,7 @@ public class Rooms {
         this.available = available;
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String url) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String roomimage) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
@@ -111,10 +111,10 @@ public class Rooms {
         this.block = block;
         this.floor = floor;
         this.available = available;
-        this.url = url;
+        this.roomimage = roomimage;
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String url, String staffname) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String roomimage, String staffname) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
@@ -122,7 +122,7 @@ public class Rooms {
         this.block = block;
         this.floor = floor;
         this.available = available;
-        this.url = url;
+        this.roomimage = roomimage;
         this.staffname = staffname;
     }
 
@@ -137,36 +137,36 @@ public class Rooms {
 
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
         this.software = software;
         this.block = block;
         this.floor = floor;
-        this.url = url;
+        this.roomimage = roomimage;
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url, String staffname, String staffId) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage, String staffname, String staffId) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
         this.software = software;
         this.block = block;
         this.floor = floor;
-        this.url = url;
+        this.roomimage = roomimage;
         this.staffname = staffname;
         this.staffId = staffId;
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String url, String staffname) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage, String staffname) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
         this.software = software;
         this.block = block;
         this.floor = floor;
-        this.url = url;
+        this.roomimage = roomimage;
         this.staffname = staffname;
     }
 

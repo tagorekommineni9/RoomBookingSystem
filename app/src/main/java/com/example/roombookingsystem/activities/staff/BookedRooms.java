@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
-import com.example.roombookingsystem.activities.admin.AdminModifyRoom;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -105,7 +103,7 @@ public class BookedRooms extends Fragment {
                     intent.putExtra(ROOM_IS_AVAILABLE, String.valueOf(room.isAvailable()));
                     intent.putExtra(ROOM_BLOCK, room.getBlock());
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
-                    intent.putExtra(ROOM_IMAGE, room.getUrl());
+                    intent.putExtra(ROOM_IMAGE, room.getRoomimage());
                     intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
                     startActivity(intent);
                 }

@@ -33,7 +33,7 @@ public class AdminModifyRoom extends AppCompatActivity {
     EditText ev_roomNo, ev_roomCapacity, ev_roomHardware, ev_roomSoftware, mBlock, mFloor;
     Spinner sp_available;
     Button btn_done;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url;
     int spinnerPosition = 0;
     MaterialToolbar toolbar;
 
@@ -59,6 +59,9 @@ public class AdminModifyRoom extends AppCompatActivity {
         ev_roomCapacity = findViewById(R.id.et_room_capacity);
         ev_roomHardware = findViewById(R.id.et_hardware_equipment);
         ev_roomSoftware = findViewById(R.id.et_software_equipment);
+        mBlock = findViewById(R.id.et_block);
+        mFloor = findViewById(R.id.et_floor);
+
         btn_done = findViewById(R.id.btn_done);
 
         toolbar = findViewById(R.id.toolbar);
@@ -80,6 +83,9 @@ public class AdminModifyRoom extends AppCompatActivity {
         roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
         roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
         roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
+        block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
+        floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
+        url = intent.getStringExtra(RoomsAvailable.ROOM_IMAGE);
 
         System.out.println("Room available intent extra: " + roomIsAvailable);
         spinnerPosition = adapter.getPosition(roomIsAvailable);
@@ -89,6 +95,8 @@ public class AdminModifyRoom extends AppCompatActivity {
         ev_roomCapacity.setText(roomCapacity);
         ev_roomHardware.setText(roomHardware);
         ev_roomSoftware.setText(roomSoftware);
+        mFloor.setText(floor);
+        mBlock.setText(block);
 
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
 
@@ -109,6 +117,8 @@ public class AdminModifyRoom extends AppCompatActivity {
                     String room_capacity = ev_roomCapacity.getText().toString();
                     String room_software = ev_roomSoftware.getText().toString();
                     String room_hardware = ev_roomHardware.getText().toString();
+                    String room_block = mBlock.getText().toString();
+                    String room_floor = mFloor.getText().toString();
 
                     boolean room_available;
                     if(sp_available.getSelectedItem().equals("true"))
@@ -118,17 +128,20 @@ public class AdminModifyRoom extends AppCompatActivity {
                     else {
                         room_available = false;
                     }
-                    updateRoom(room_no, room_capacity, room_software, room_hardware, room_available);
+                    updateRoom(room_no, room_capacity, room_software, room_hardware, room_available, room_block, room_floor, url);
+                    Intent AdminDashIntent = new Intent(AdminModifyRoom.this, AdminDashboardActivity.class);
+                    startActivity(AdminDashIntent);
                 }
             }
         });
     }
 
-    private boolean updateRoom(String roomno, String roomcapacity, String hardware, String software, boolean available) {
+    private boolean updateRoom(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor, String roomimage) {
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomno);
 
-        Rooms room = new Rooms(roomno, roomcapacity, hardware, software, available);
+        Rooms room = new Rooms(roomno, roomcapacity, hardware, software, available, block, floor, roomimage);
         mRoomsDatabase.setValue(room);
+
         Toast.makeText(this, "Room updated", Toast.LENGTH_LONG).show();
 
         return true;

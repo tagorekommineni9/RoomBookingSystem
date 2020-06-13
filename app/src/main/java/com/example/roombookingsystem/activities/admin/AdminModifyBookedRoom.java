@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,14 +24,14 @@ import java.util.List;
 
 public class AdminModifyBookedRoom extends AppCompatActivity {
 
-    private DatabaseReference mRoomsDatabase;
+    private DatabaseReference mRoomsDatabase, mBookingDatabase, mUserDatabase;
     private RecyclerView mRoomRecyclerView;
     private RecyclerView.Adapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
     private TableLayout mTableLayoutView;
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
-    Button btn_cancel;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor;
+    Button btncancel;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         mRoomSoftware = findViewById(R.id.et_software_equipment);
         mBlock = findViewById(R.id.et_block);
         mFloor = findViewById(R.id.et_floor);
-        btn_cancel = findViewById(R.id.btn_done);
+        btncancel = findViewById(R.id.btn_remove);
 
         Intent intent = getIntent();
 
@@ -56,6 +57,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         roomIsAvailable = intent.getStringExtra(AdminBookedRooms.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(AdminBookedRooms.ROOM_BLOCK);
         floor = intent.getStringExtra(AdminBookedRooms.ROOM_FLOOR);
+        currentId = intent.getStringExtra(AdminBookedRooms.ROOM_STAFF_ID);
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
@@ -64,19 +66,23 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         mBlock.setText(block);
         mFloor.setText(floor);
 
+        mBookingDatabase = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("users").child(currentId).child("bookings");
 
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        btncancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                //Remove from booking collection
+                mBookingDatabase.removeValue();
 
-                String room_no = mRoomNo.getText().toString();
-                String room_capacity = mRoomCapacity.getText().toString();
-                String room_software = mRoomSoftware.getText().toString();
-                String room_hardware = mRoomHardware.getText().toString();
-                String room_block = mBlock.getText().toString();
-                String room_floor = mFloor.getText().toString();
-                updateRoom(room_no, room_capacity, room_software, room_hardware, true, room_block, room_floor);
+                //set availability in rooms
+                mRoomsDatabase.child("available").setValue(true);
+
+                //Remove from user collection
+                mUserDatabase.child(roomID).removeValue();
+                Toast.makeText(getApplicationContext(), "Room updated", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -84,15 +90,6 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         });
     }
 
-    private boolean updateRoom(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor) {
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomno);
-
-        Rooms room = new Rooms(roomno, roomcapacity, hardware, software, available, block, floor);
-        mRoomsDatabase.setValue(room);
-        Toast.makeText(this, "Room updated", Toast.LENGTH_LONG).show();
-
-        return true;
-    }
 
     private ArrayList<Rooms> roomListingResult= new ArrayList<Rooms>();
 
