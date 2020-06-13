@@ -1,6 +1,8 @@
 package com.example.roombookingsystem.activities.admin.rooms;
 
+import android.media.Image;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
 
     public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor;
     Spinner mAvailable;
+    ImageView mRoomImage;
 
 
     public RoomsViewHolder(@NonNull View itemView, final RoomsAdapter.OnItemClickListener listener) {
@@ -25,6 +28,7 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
         mSoftware = itemView.findViewById(R.id.tv_software_equipment);
         mBlock = itemView.findViewById(R.id.tv_block);
         mFloor = itemView.findViewById(R.id.tv_floor);
+        mRoomImage = itemView.findViewById(R.id.image_btn);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
