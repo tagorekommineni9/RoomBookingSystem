@@ -88,25 +88,24 @@ public class ModifyBookedRoom extends AppCompatActivity {
         mBlock.setText(block);
         mFloor.setText(floor);
 
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
+        mBookingsDatabase = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("users").child(currentId);
+        mRoomsDatabase  = FirebaseDatabase.getInstance().getReference("rooms").child(roomID);
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //set to available in rooms table
-                String room_no = mRoomNo.getText().toString();
-                String room_capacity = mRoomCapacity.getText().toString();
-                String room_software = mRoomSoftware.getText().toString();
-                String room_hardware = mRoomHardware.getText().toString();
-                String room_block = mBlock.getText().toString();
-                String room_floor = mFloor.getText().toString();
-                updateRoom(room_no, room_capacity, room_software, room_hardware, true, room_block, room_floor);
 
                 //remove from bookings table
-                mBookingsDatabase.child(room_no).removeValue();
+                mBookingsDatabase.removeValue();
                 //remove from users table
-                mUserDatabase.child(room_no).removeValue();
+                mUserDatabase.child("bookings").child(roomID).removeValue();
+
+                //set Room to available
+                mRoomsDatabase.child("available").setValue(true);
+
+                Toast.makeText(getApplicationContext(), "Booking Removed!", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -115,15 +114,6 @@ public class ModifyBookedRoom extends AppCompatActivity {
         });
     }
 
-    private boolean updateRoom(String roomno, String roomcapacity, String hardware, String software, boolean available, String block, String floor) {
-        mRoomsDatabase = FirebaseDatabase.getInstance().getReference("rooms").child(roomno);
-
-        Rooms room = new Rooms(roomno, roomcapacity, hardware, software, available, block, floor);
-        mRoomsDatabase.setValue(room);
-        Toast.makeText(this, "Room updated", Toast.LENGTH_LONG).show();
-
-        return true;
-    }
 
     private ArrayList<Rooms> roomListingResult= new ArrayList<Rooms>();
 
