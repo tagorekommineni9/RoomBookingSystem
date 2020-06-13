@@ -109,6 +109,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
                 mUserDatabase.child(room_no).removeValue();
 
                 Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });

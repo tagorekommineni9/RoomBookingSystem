@@ -78,6 +78,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
                 String room_floor = mFloor.getText().toString();
                 updateRoom(room_no, room_capacity, room_software, room_hardware, true, room_block, room_floor);
                 Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
