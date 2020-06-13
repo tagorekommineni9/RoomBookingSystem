@@ -107,7 +107,20 @@
                     android:layout_weight="0"
                     android:text="Software Equipment " />
 
+                <com.example.roombookingsystem.activities.admin.MultiSelectionSpinner
+                    android:id="@+id/spinnerSoftware"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_rounded1"
+                    android:padding="8dp"
+                    android:textColor="#414141 "
+                    android:textSize="15dp" />
+
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/et_software_equipment"
                     android:layout_weight="1"
                     android:layout_marginRight="15dp"
@@ -134,7 +147,20 @@
                     android:layout_weight="0"
                     android:text="Hardware Equipment " />
 
+                <com.example.roombookingsystem.activities.admin.MultiSelectionSpinner
+                    android:id="@+id/spinnerHardware"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_rounded1"
+                    android:padding="8dp"
+                    android:textColor="#414141 "
+                    android:textSize="15dp" />
+
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/et_hardware_equipment"
                     android:layout_weight="1"
                     android:layout_marginRight="15dp"
