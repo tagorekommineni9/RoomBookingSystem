@@ -42,6 +42,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +63,7 @@ public class AdminAddRooms extends Fragment {
     Uri RoomResultUri;
     ImageView classRoomImage;
     String classImageUrl;
+
 
     public AdminAddRooms() {
         // Required empty public constructor
@@ -249,19 +252,9 @@ public class AdminAddRooms extends Fragment {
                                 } else {
                                     classImageUrl = "default";
                                     roomInfo.put("roomimage", classImageUrl);
+                                    RoomDb.updateChildren(roomInfo);
                                 }
-
-                                RoomDb.updateChildren(roomInfo).addOnCompleteListener(new OnCompleteListener() {
-                                    @Override
-                                    public void onComplete(@NonNull Task task) {
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(getContext(), "New Class room is added", Toast.LENGTH_SHORT).show();
-                                        }else {
-                                            Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
+                                Toast.makeText(getContext(), "New Class room is added", Toast.LENGTH_SHORT).show();
                                 goToDashboard();
 
                             }
@@ -280,7 +273,7 @@ public class AdminAddRooms extends Fragment {
 
     private void goToDashboard() {
         Intent staffIntent = new Intent(getContext(), AdminDashboardActivity.class);
-        staffIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        staffIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(staffIntent);
     }
 
