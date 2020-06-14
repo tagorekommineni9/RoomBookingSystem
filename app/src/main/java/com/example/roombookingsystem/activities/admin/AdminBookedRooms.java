@@ -40,7 +40,7 @@ public class AdminBookedRooms extends Fragment {
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_STAFF = "staff";
     public static final String ROOM_STAFF_ID = "staffId";
-    private DatabaseReference mRoomsDatabase;
+    private DatabaseReference mRoomsDatabase,mBookingDatabase;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
@@ -96,9 +96,10 @@ public class AdminBookedRooms extends Fragment {
     }
 
     private void setRoomData() {
+        mBookingDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
         mRoomsDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
 
-        mRoomsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mBookingDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -126,8 +127,7 @@ public class AdminBookedRooms extends Fragment {
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                available = dataSnapshot.child("available").getValue().toString();
-                if(dataSnapshot.exists() && available.equals("false")){
+
                     roomID = dataSnapshot.child("roomno").getValue().toString();
                     roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
                     roomSoftware = dataSnapshot.child("software").getValue().toString();
@@ -141,7 +141,7 @@ public class AdminBookedRooms extends Fragment {
                     Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
-                }
+
             }
 
             @Override
