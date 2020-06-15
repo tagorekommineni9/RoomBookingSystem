@@ -30,8 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,7 +167,7 @@ public class BookRoom extends AppCompatActivity {
         roomCapacity = intent.getStringExtra(RoomsAvailable.ROOM_CAPACITY);
         roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
         roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
-        roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
+        //roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
         floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
         url = intent.getStringExtra(RoomsAvailable.ROOM_IMAGE);
@@ -252,7 +256,17 @@ public class BookRoom extends AppCompatActivity {
                 month = month + 1;
                 Log.d("BookRoom", "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
                 int durationHour;
-                String date = month + "/" + day + "/" + year;
+                String months = "";
+                if(month<10)
+                {
+                    months = "0" + month;
+                }
+                else
+                {
+                    months = String.valueOf(day);
+                }
+                String date = months + "/" + day + "/" + year;
+                System.out.println("Date : " + date);
                 mDate.setText(date);
             }
         };
@@ -323,16 +337,33 @@ public class BookRoom extends AppCompatActivity {
                     Toast.makeText(BookRoom.this, "Select Date", Toast.LENGTH_LONG).show();
                 }
                 else
+                {
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
+                    Date date = new Date();
+                    String currentDate = formatter.format(date);
+                    System.out.println("Current date: " + currentDate);
+                    System.out.println(currentDate.split(" ")[0]);
+                    System.out.println("Test: " +mDate.getText().toString());
+                    if(currentDate.split(" ")[0].equals(mDate.getText().toString()))
                     {
+                        System.out.println("Inside if of current date time");
+                        int currentTime = Integer.parseInt(currentDate.split(" ")[1].split(":")[0]);
+                        start = startTimeSpinner.getSelectedItem().toString();
+                        startSplit = start.split(":");
+                        System.out.println("start split: " + Integer.parseInt(startSplit[0]));
+                        System.out.println("current time: " + currentTime);
+                        if(Integer.parseInt(startSplit[0]) < currentTime)
+                        {
+                            Toast.makeText(BookRoom.this, "Please select Start time ahead from current time", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
                     int hours = Integer.parseInt(mDuration.getText().toString());
                     if (hours <= 0) {
                         Toast.makeText(BookRoom.this, "End time should be more than start time", Toast.LENGTH_LONG).show();
-                    } else {
-
-                       // String key = mBookingsDatabase.push().getKey();
-
-
-
+                    } else
+                    {
+                        // String key = mBookingsDatabase.push().getKey();
                         mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
                         DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
 
