@@ -6,8 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <color name="black">#101010</color>
-        <color name="orange">#fd9941</color>
     </style>
 
 </resources>

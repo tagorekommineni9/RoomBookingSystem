@@ -190,7 +190,7 @@
 
 
         <Button
-            android:id="@+id/btn_done"
+            android:id="@+id/btn_remove"
             android:text="Cancel "
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
