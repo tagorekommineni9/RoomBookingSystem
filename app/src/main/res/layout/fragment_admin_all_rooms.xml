@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.AdminAllRooms">
+    tools:context=".activities.admin.AdminAllRooms"
+    android:background="@drawable/bg_color">
 
 
     <TextView
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="ALL ROOMS"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="32sp"
         android:id="@+id/allrooms"
         android:layout_centerHorizontal="true"

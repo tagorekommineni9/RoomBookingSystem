@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.staff.ModifyBookedRoom">
+    tools:context=".activities.staff.ModifyBookedRoom"
+    android:background="@drawable/bg_color">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
@@ -190,6 +191,7 @@
         <Button
             android:id="@+id/btn_done"
             android:text="Cancel Booking"
+            android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="120dp"
             android:layout_marginRight="120dp"
@@ -197,7 +199,7 @@
             android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#B80F0A" />
+            android:background="@drawable/orangr_rounded" />
     </TableLayout>
 
 </RelativeLayout>

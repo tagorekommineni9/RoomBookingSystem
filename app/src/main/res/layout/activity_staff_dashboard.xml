@@ -15,33 +15,33 @@
         app:titleTextColor="#fff"
         />
 
-<androidx.drawerlayout.widget.DrawerLayout
-    android:layout_below="@id/toolbar"
-    android:id="@+id/my_drawer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/my_drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/content_frame">
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_frame">
 
-    </FrameLayout>
+        </FrameLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:id="@+id/nav_view"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/my_staff_header"
-        app:menu="@menu/my_nav_menu"
-        >
-
-
-    </com.google.android.material.navigation.NavigationView>
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:id="@+id/nav_view"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/my_staff_header"
+            app:menu="@menu/my_nav_menu"
+            >
 
 
+        </com.google.android.material.navigation.NavigationView>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

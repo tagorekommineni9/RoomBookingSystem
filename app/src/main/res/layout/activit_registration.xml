@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_color">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:layout_below="@id/toolbar"
         android:id="@+id/registration"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#101010"
         android:textStyle="bold"
         android:layout_marginBottom="32dp"
         />
@@ -33,156 +34,166 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/registration"
-      >
+        >
 
 
 
-    <TableRow
-        android:layout_marginBottom="15dp"
-        android:padding="5dp">
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp">
 
-        <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Name "
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:drawablePadding="7dp"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textColor="#414141 "
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Phone "
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:drawablePadding="7dp"/>
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textColor="#414141 "
+                android:padding="8dp"
+                android:inputType="number"
+                android:maxLength="10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Email "
+                android:drawableLeft="@drawable/ic_email_black"
+                android:drawablePadding="7dp"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:padding="8dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textColor="#414141 "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Password "
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="7dp"/>
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textColor="#414141 "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Confirm Password "
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="7dp"/>
+
+            <EditText
+                android:id="@+id/et_confirm_pwd"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:padding="8dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textColor="#414141 "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:text="Register"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginBottom="2dp"
+            android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:paddingLeft="5dp"
-            android:textColor="#000000"
-            android:layout_weight="0"
-            android:text="Name " />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_weight="1"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/edittext_rounded1"
-            android:textSize="15dp"
-            android:textColor="#414141 "
-            android:padding="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </TableRow>
-
-    <TableRow
-        android:layout_marginBottom="15dp"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:paddingLeft="5dp"
-            android:textColor="#000000"
-            android:layout_weight="0"
-            android:text="Phone " />
-
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_weight="1"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/edittext_rounded1"
-            android:textSize="15dp"
-            android:textColor="#414141 "
-            android:padding="8dp"
-            android:inputType="number"
-            android:maxLength="10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </TableRow>
-
-    <TableRow
-        android:layout_marginBottom="15dp"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:paddingLeft="5dp"
-            android:textColor="#000000"
-            android:layout_weight="0"
-            android:text="Email " />
-
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_weight="1"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:padding="8dp"
-            android:background="@drawable/edittext_rounded1"
-            android:textSize="15dp"
-            android:textColor="#414141 "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_marginBottom="15dp"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:paddingLeft="5dp"
-            android:textColor="#000000"
-            android:layout_weight="0"
-            android:text="Password " />
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/edittext_rounded1"
-            android:textSize="15dp"
-            android:textColor="#414141 "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_marginBottom="15dp"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:paddingLeft="5dp"
-            android:textColor="#000000"
-            android:layout_weight="0"
-            android:text="Confirm Password " />
-
-        <EditText
-            android:id="@+id/et_confirm_pwd"
-            android:layout_weight="1"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:padding="8dp"
-            android:background="@drawable/edittext_rounded1"
-            android:textSize="15dp"
-            android:textColor="#414141 "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </TableRow>
-
-    <Button
-        android:id="@+id/btn_register"
-        android:text="Register"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginRight="120dp"
-        android:layout_marginBottom="2dp"
-        android:textColor="#FAF5F5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_login" />
+            android:background="@drawable/orangr_rounded" />
     </TableLayout>
 </RelativeLayout>

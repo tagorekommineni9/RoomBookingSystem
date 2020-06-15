@@ -4,24 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
     tools:context=".activities.admin.AdminModifyBookedRoom">
 
-
-    <com.google.android.material.appbar.MaterialToolbar
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="#fff"
-        app:title="Cancel Room Booking"
-        app:navigationIcon="@drawable/ic_back"
-        android:layout_marginBottom="32dp"
+        android:text="Cancel room booking"
+        android:textSize="32sp"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
         >
 
         <TableRow
@@ -188,8 +190,9 @@
 
 
         <Button
-            android:id="@+id/btn_remove"
-            android:text="Cancel Booking"
+            android:id="@+id/btn_done"
+            android:text="Cancel "
+            android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="120dp"
             android:layout_marginRight="120dp"
@@ -197,9 +200,7 @@
             android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#B80F0A" />
-
-
+            android:background="@drawable/orangr_rounded" />
     </TableLayout>
 
 </RelativeLayout>

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="Booked Rooms"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="32sp"
         android:gravity="center"
         android:layout_marginBottom="12dp"

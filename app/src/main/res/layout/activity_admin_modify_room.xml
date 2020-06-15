@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.AdminModifyRoom">
+    tools:context=".activities.admin.AdminModifyRoom"
+    android:background="@drawable/bg_color">
 
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -230,7 +231,7 @@
             android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_login" />
+            android:background="@drawable/orangr_rounded" />
     </TableLayout>
 
 </RelativeLayout>

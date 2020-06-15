@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.staff.RoomsAvailable">
+    tools:context=".activities.staff.RoomsAvailable"
+    android:background="@drawable/bg_color">
 
 
     <TextView
@@ -12,7 +13,7 @@
         android:text="Available Rooms"
         android:textSize="32sp"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textAllCaps="true"
         android:layout_marginTop="8dp"
         android:id="@+id/bookedrooms"

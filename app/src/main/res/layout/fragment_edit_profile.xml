@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.staff.EditProfile">
+    tools:context=".activities.staff.EditProfile"
+    android:background="@drawable/bg_color">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:textAllCaps="true"
         android:id="@+id/registration"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
@@ -118,7 +119,7 @@
             android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_login" />
+            android:background="@drawable/orangr_rounded" />
     </TableLayout>
 
 
