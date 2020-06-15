@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
@@ -26,11 +30,27 @@ public class SplashActivity extends AppCompatActivity {
     private DatabaseReference userDatabaseReference;
     String userType;
     private static int TIMER = 5000;
+    Animation topAnim,bottomAnim;
+    TextView logo;
+    ImageView image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        topAnim = AnimationUtils.loadAnimation(this,R.anim.top);
+        bottomAnim =AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
+
+
+        image =findViewById(R.id.imageView);
+        logo=findViewById(R.id.textView);
+
+
+        image.setAnimation(topAnim);
+        logo.setAnimation(bottomAnim);
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -82,7 +102,12 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    loginScreen();
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            loginScreen();
+                            finish();
+                        }
+                    }, TIMER);
                 }
             }
         };

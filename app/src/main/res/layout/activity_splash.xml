@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
     tools:context=".activities.SplashActivity">
 
 
-
     <ImageView
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-
-        android:id="@+id/image"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="45dp"
-        android:background="@drawable/logo"/>
+        android:id="@+id/imageView"
+        android:layout_width="310dp"
+        android:layout_height="297dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/imagespkebeh1m"
+        android:transitionName="logo_image"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ROOM BOOKING SYSTEM"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="@color/colorPrimary"
-        android:layout_below="@id/image"
-        android:id="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"/>
-</RelativeLayout>
+        android:id="@+id/textView"
+        android:layout_width="406dp"
+        android:layout_height="213dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/bungee_inline"
+        android:text="Room Booking System"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHighlight="#DC0D0D"
+        android:textColorHint="#151414"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
