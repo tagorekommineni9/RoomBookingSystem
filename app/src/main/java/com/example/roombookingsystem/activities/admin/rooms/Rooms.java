@@ -9,6 +9,8 @@ public class Rooms {
     String block;
     String floor;
     boolean available;
+    String requestedEquipment;
+    String bookingPurpose;
 
     public String getStaffname() {
         return staffname;
@@ -87,6 +89,14 @@ public class Rooms {
     public String getFloor() { return floor; }
 
     public void setFloor(String floor) { this.floor = floor; }
+
+    public String getRequestedEquipment() { return requestedEquipment; }
+
+    public void setRequestedEquipment(String requestedEquipment) { this.requestedEquipment = requestedEquipment; }
+
+    public String getBookingPurpose() { return bookingPurpose; }
+
+    public void setBookingPurpose(String bookingPurpose) { this.bookingPurpose = bookingPurpose; }
 
     public Rooms(String roomno, String roomcapacity, String hardware, String software) {
         this.roomno = roomno;
@@ -170,4 +180,15 @@ public class Rooms {
         this.staffname = staffname;
     }
 
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage, String staffname, String staffId, String requestedEquipment, String bookingPurpose) {
+        this.roomno = roomno;
+        this.roomcapacity = roomcapacity;
+        this.hardware = hardware;
+        this.software = software;
+        this.block = block;
+        this.floor = floor;
+        this.roomimage = roomimage;
+        this.staffname = staffname;
+        this.staffId = staffId;
+    }
 }
