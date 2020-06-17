@@ -44,7 +44,7 @@ public class BookedRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName, staffId;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName, staffId, requestedEquipment, bookingPurpose;
 
     public BookedRooms() {
         // Required empty public constructor
@@ -143,20 +143,22 @@ public class BookedRooms extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    roomID = dataSnapshot.child("roomno").getValue().toString();
-                    roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
-                    roomSoftware = dataSnapshot.child("software").getValue().toString();
-                    roomHardware = dataSnapshot.child("hardware").getValue().toString();
-                    block = dataSnapshot.child("block").getValue().toString();
-                    floor = dataSnapshot.child("floor").getValue().toString();
-                    url  = dataSnapshot.child("roomimage").getValue().toString();
-                    staff  = dataSnapshot.child("staff").getValue().toString();
-                    staffId = dataSnapshot.child("staffId").getValue().toString();
+                roomID = dataSnapshot.child("roomno").getValue().toString();
+                roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
+                roomSoftware = dataSnapshot.child("software").getValue().toString();
+                roomHardware = dataSnapshot.child("hardware").getValue().toString();
+                block = dataSnapshot.child("block").getValue().toString();
+                floor = dataSnapshot.child("floor").getValue().toString();
+                url  = dataSnapshot.child("roomimage").getValue().toString();
+                staff  = dataSnapshot.child("staff").getValue().toString();
+                staffId = dataSnapshot.child("staffId").getValue().toString();
+                requestedEquipment = dataSnapshot.child("requestedEquipment").getValue().toString();
+                bookingPurpose = dataSnapshot.child("bookingPurpose").getValue().toString();
 
-                    //Get current staff name
+                //Get current staff name
 
                 if(currentUserName.equals(staff)){
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId, requestedEquipment, bookingPurpose);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

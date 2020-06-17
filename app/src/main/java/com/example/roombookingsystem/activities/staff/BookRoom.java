@@ -47,10 +47,10 @@ public class BookRoom extends AppCompatActivity {
     Button btn_book;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url, staffName;
     String dateFlag = "", currentId;
-    Spinner startTimeSpinner, endTimeSpinner;
+    Spinner startTimeSpinner, endTimeSpinner, bookingPurposeSpinner;
     MultiSelectionSpinner sp_hardware, sp_software;
     private TextView mDate, mDuration;
-    private EditText end_error, start_error;
+    EditText requestedEquipment;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Map<String, Integer> startDurationCalc = new HashMap<>();
     private Map<String, Integer> endDurationCalc = new HashMap<>();
@@ -78,6 +78,9 @@ public class BookRoom extends AppCompatActivity {
         startTimeSpinner = (Spinner) findViewById(R.id.spinnerStartTime);
         endTimeSpinner = (Spinner) findViewById(R.id.spinnerEndTime);
         mDuration = findViewById(R.id.et_duration);
+        bookingPurposeSpinner = (Spinner) findViewById(R.id.spinnerBookingPurpose);
+        requestedEquipment = findViewById(R.id.et_requestedEquipment);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -144,6 +147,15 @@ public class BookRoom extends AppCompatActivity {
         endAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         endTimeSpinner.setAdapter(endAdapter);
 
+        ArrayList<String> bookingPurposeList = new ArrayList<>();
+        bookingPurposeList.add("Exam");
+        bookingPurposeList.add("Meeting");
+
+        ArrayAdapter<String> bookingPurposeAdapter =
+                new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bookingPurposeList);
+        bookingPurposeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bookingPurposeSpinner.setAdapter(bookingPurposeAdapter);
+
 
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -180,6 +192,7 @@ public class BookRoom extends AppCompatActivity {
         tv_floor.setText(floor);
         startTimeSpinner.setSelection(0);
         endTimeSpinner.setSelection(0);
+        bookingPurposeSpinner.setSelection(0);
 
         startTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -227,6 +240,8 @@ public class BookRoom extends AppCompatActivity {
 
             }
         });
+
+
 
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -364,6 +379,7 @@ public class BookRoom extends AppCompatActivity {
                     } else
                     {
                         // String key = mBookingsDatabase.push().getKey();
+                        System.out.println("Inside else");
                         mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
                         DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
 
@@ -382,15 +398,23 @@ public class BookRoom extends AppCompatActivity {
                         bookingsMap.put("duration",hours);
                         bookingsMap.put("roomimage",url);
                         bookingsMap.put("bookingDate",mDate.getText().toString());
-
+                        bookingsMap.put("bookingPurpose", bookingPurposeSpinner.getSelectedItem().toString());
+                        System.out.println("Testing requested");
+                        System.out.println("Requested Equipment: " + requestedEquipment.getText().toString());
+                        if(requestedEquipment.getText().toString().equals(""))
+                        {
+                            bookingsMap.put("requestedEquipment", "NA");
+                        }
+                        else
+                        {
+                            bookingsMap.put("requestedEquipment", requestedEquipment.getText().toString());
+                        }
                         mRoomsDatabase.child("available").setValue(false);
                         //mRoomsDatabase.child("duration").setValue(hours);
                         //mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
 
                         //create bookings table with all room information
                         bookingReference.updateChildren(bookingsMap);
-
-
 
                         Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
