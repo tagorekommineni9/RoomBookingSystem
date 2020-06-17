@@ -128,19 +128,19 @@ public class AdminBookedRooms extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    roomID = dataSnapshot.child("roomno").getValue().toString();
-                    roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
-                    roomSoftware = dataSnapshot.child("software").getValue().toString();
-                    roomHardware = dataSnapshot.child("hardware").getValue().toString();
-                    block = dataSnapshot.child("block").getValue().toString();
-                    floor = dataSnapshot.child("floor").getValue().toString();
-                    url  = dataSnapshot.child("roomimage").getValue().toString();
-                    staff_name  = dataSnapshot.child("staff").getValue().toString();
-                    staff_id  = dataSnapshot.child("staffId").getValue().toString();
+                roomID = dataSnapshot.child("roomno").getValue().toString();
+                roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
+                roomSoftware = dataSnapshot.child("software").getValue().toString();
+                roomHardware = dataSnapshot.child("hardware").getValue().toString();
+                block = dataSnapshot.child("block").getValue().toString();
+                floor = dataSnapshot.child("floor").getValue().toString();
+                url  = dataSnapshot.child("roomimage").getValue().toString();
+                staff_name  = dataSnapshot.child("staff").getValue().toString();
+                staff_id  = dataSnapshot.child("staffId").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id);
-                    roomListingResult.add(roomObj);
-                    mRoomItemAdapter.notifyDataSetChanged();
+                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id);
+                roomListingResult.add(roomObj);
+                mRoomItemAdapter.notifyDataSetChanged();
 
             }
 

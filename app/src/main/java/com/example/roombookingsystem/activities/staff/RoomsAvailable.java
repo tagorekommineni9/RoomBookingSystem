@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.example.roombookingsystem.R;
@@ -75,9 +76,11 @@ public class RoomsAvailable extends Fragment {
 
         if(getRoomListing() != null)
         {
+            System.out.println("Room card test");
             mRoomItemAdapter.setOnItemClickListener(new RoomsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
+                    Toast.makeText(getContext(), "Room card clicked", Toast.LENGTH_SHORT).show();
                     Rooms room = getRoomListing().get(position);
                     Intent intent = new Intent(getActivity(), BookRoom.class);
                     intent.putExtra(ROOM_ID, room.getRoomno());
@@ -135,7 +138,7 @@ public class RoomsAvailable extends Fragment {
                     floor = dataSnapshot.child("floor").getValue().toString();
                     url  = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity, roomHardware, roomSoftware, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

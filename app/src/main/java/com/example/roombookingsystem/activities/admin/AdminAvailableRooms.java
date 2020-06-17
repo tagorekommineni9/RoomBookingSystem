@@ -104,7 +104,7 @@ public class AdminAvailableRooms extends Fragment {
                     floor = dataSnapshot.child("floor").getValue().toString();
                     url = dataSnapshot.child("roomimage").getValue().toString();
 
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url);
+                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url);
                     roomListingResult.add(roomObj);
                     mRoomItemAdapter.notifyDataSetChanged();
                 }

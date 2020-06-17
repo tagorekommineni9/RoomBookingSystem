@@ -155,6 +155,9 @@ public class BookedRooms extends Fragment {
                 requestedEquipment = dataSnapshot.child("requestedEquipment").getValue().toString();
                 bookingPurpose = dataSnapshot.child("bookingPurpose").getValue().toString();
 
+                System.out.println("requestedEquipment : " + requestedEquipment);
+                System.out.println("bookingPurpose: " + bookingPurpose);
+
                 //Get current staff name
 
                 if(currentUserName.equals(staff)){

@@ -48,7 +48,7 @@ public class BookRoom extends AppCompatActivity {
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url, staffName;
     String dateFlag = "", currentId;
     Spinner startTimeSpinner, endTimeSpinner, bookingPurposeSpinner;
-    MultiSelectionSpinner sp_hardware, sp_software;
+    //MultiSelectionSpinner sp_hardware, sp_software;
     private TextView mDate, mDuration;
     EditText requestedEquipment;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -85,7 +85,7 @@ public class BookRoom extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //software and hardware
-        sp_software = findViewById(R.id.spinnerSoftware);
+        /*sp_software = findViewById(R.id.spinnerSoftware);
         sp_hardware = findViewById(R.id.spinnerHardware);
 
         ArrayList<Item> softwareItems = new ArrayList<>();
@@ -108,7 +108,7 @@ public class BookRoom extends AppCompatActivity {
         hardwareItems.add(Item.builder().name("Cable Wire").value(false).build());
         hardwareItems.add(Item.builder().name("Usb").value(false).build());
         hardwareItems.add(Item.builder().name("Web Cam").value(false).build());
-        sp_hardware.setItems(hardwareItems);
+        sp_hardware.setItems(hardwareItems);*/
 
         //current logged in user id
         currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -310,7 +310,7 @@ public class BookRoom extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Get Software and hardware details
-                String hardwares= "", softwares ="";
+                /*String hardwares= "", softwares ="";
                 int countS = 0, countH = 0;
                 ArrayList<Item> softwareList = new ArrayList<>();
                 softwareList = sp_software.getSelectedItems();
@@ -337,13 +337,13 @@ public class BookRoom extends AppCompatActivity {
                 }
 
                 roomSoftware = softwares;
-                roomHardware = hardwares;
+                roomHardware = hardwares;*/
 
-                if(roomHardware.equals("") || roomSoftware.equals(""))
+                /*if(roomHardware.equals("") || roomSoftware.equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Select Hardware and software", Toast.LENGTH_LONG).show();
-                }
-                else if(mDuration.getText().toString().equals(""))
+                }*/
+                if(mDuration.getText().toString().equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Click duration button to confirm no of hours", Toast.LENGTH_LONG).show();
                 }
