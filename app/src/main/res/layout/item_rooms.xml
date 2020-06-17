@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -224,6 +223,63 @@
 
         </TableRow>
 
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp"
+            android:id="@+id/requestedEquipment_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Requested Equipment " />
+
+            <TextView
+                android:id="@+id/tv_requested_equipment"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:padding="8dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textAlignment="center"
+                android:textColor="#414141"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="15dp"
+            android:padding="5dp"
+            android:id="@+id/bookingPurpose_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="5dp"
+                android:textColor="#000000"
+                android:layout_weight="0"
+                android:text="Booking Purpose " />
+
+            <TextView
+                android:id="@+id/tv_booking_purpose"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:padding="8dp"
+                android:background="@drawable/edittext_rounded1"
+                android:textSize="15dp"
+                android:textAlignment="center"
+                android:textColor="#414141"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
     </TableLayout>
 
 
