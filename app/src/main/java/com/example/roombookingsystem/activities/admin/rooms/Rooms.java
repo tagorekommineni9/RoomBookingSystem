@@ -190,5 +190,7 @@ public class Rooms {
         this.roomimage = roomimage;
         this.staffname = staffname;
         this.staffId = staffId;
+        this.requestedEquipment = requestedEquipment;
+        this.bookingPurpose = bookingPurpose;
     }
 }
