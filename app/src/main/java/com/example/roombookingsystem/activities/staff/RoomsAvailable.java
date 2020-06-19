@@ -123,6 +123,7 @@ public class RoomsAvailable extends Fragment {
 
         DatabaseReference RoomKeyRef = mRoomsDatabase.child(key);
 
+        //add ref to timings table get start time and end time
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

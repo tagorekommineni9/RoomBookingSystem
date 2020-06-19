@@ -396,6 +396,8 @@ public class BookRoom extends AppCompatActivity {
                         bookingsMap.put("staff",staffName);
                         bookingsMap.put("staffId",currentId);
                         bookingsMap.put("duration",hours);
+                        bookingsMap.put("starttime", start);
+                        bookingsMap.put("endtime", end);
                         bookingsMap.put("roomimage",url);
                         bookingsMap.put("bookingDate",mDate.getText().toString());
                         bookingsMap.put("bookingPurpose", bookingPurposeSpinner.getSelectedItem().toString());
@@ -415,6 +417,9 @@ public class BookRoom extends AppCompatActivity {
 
                         //create bookings table with all room information
                         bookingReference.updateChildren(bookingsMap);
+
+                        //create a timing table
+
 
                         Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
