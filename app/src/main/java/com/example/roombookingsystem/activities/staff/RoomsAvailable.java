@@ -80,7 +80,6 @@ public class RoomsAvailable extends Fragment {
             mRoomItemAdapter.setOnItemClickListener(new RoomsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    Toast.makeText(getContext(), "Room card clicked", Toast.LENGTH_SHORT).show();
                     Rooms room = getRoomListing().get(position);
                     Intent intent = new Intent(getActivity(), BookRoom.class);
                     intent.putExtra(ROOM_ID, room.getRoomno());

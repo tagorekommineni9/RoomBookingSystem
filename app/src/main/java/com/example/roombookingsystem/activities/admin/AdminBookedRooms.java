@@ -44,7 +44,7 @@ public class AdminBookedRooms extends Fragment {
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, url, staff_id, staff_name;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, url, staff_id, staff_name, requestedEquipment, bookingPurpose;
 
     public AdminBookedRooms() {
         // Required empty public constructor
@@ -137,11 +137,12 @@ public class AdminBookedRooms extends Fragment {
                 url  = dataSnapshot.child("roomimage").getValue().toString();
                 staff_name  = dataSnapshot.child("staff").getValue().toString();
                 staff_id  = dataSnapshot.child("staffId").getValue().toString();
+                requestedEquipment = dataSnapshot.child("requestedEquipment").getValue().toString();
+                bookingPurpose = dataSnapshot.child("bookingPurpose").getValue().toString();
 
-                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id);
+                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id, requestedEquipment, bookingPurpose);
                 roomListingResult.add(roomObj);
                 mRoomItemAdapter.notifyDataSetChanged();
-
             }
 
             @Override
