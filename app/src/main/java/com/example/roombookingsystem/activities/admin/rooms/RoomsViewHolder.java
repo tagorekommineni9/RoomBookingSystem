@@ -15,10 +15,10 @@ import com.example.roombookingsystem.R;
 public class RoomsViewHolder extends RecyclerView.ViewHolder {
 
 
-    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor, mStaffName;
+    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor, mStaffName, mRequestedEquipment, mBookingPurpose;
     Spinner mAvailable;
     ImageView mRoomImage;
-    TableRow mTableLayout;
+    TableRow mTableLayout, mRequestedEquipmentLayout, mBookingPurposeLayout;
 
 
     public RoomsViewHolder(@NonNull View itemView, final RoomsAdapter.OnItemClickListener listener) {
@@ -32,7 +32,11 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
         mFloor = itemView.findViewById(R.id.tv_floor);
         mRoomImage = itemView.findViewById(R.id.image_btn);
         mStaffName = itemView.findViewById(R.id.tv_staff_name);
+        mRequestedEquipment = itemView.findViewById(R.id.tv_requested_equipment);
+        mBookingPurpose = itemView.findViewById(R.id.tv_booking_purpose);
         mTableLayout = itemView.findViewById(R.id.staff_layout);
+        mRequestedEquipmentLayout = itemView.findViewById(R.id.requestedEquipment_layout);
+        mBookingPurposeLayout = itemView.findViewById(R.id.bookingPurpose_layout);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

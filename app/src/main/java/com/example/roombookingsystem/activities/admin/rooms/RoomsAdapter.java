@@ -70,9 +70,15 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
                 if(dataSnapshot.child(RoomList.get(position).getRoomno()).exists()){
                     holder.mTableLayout.setVisibility(View.VISIBLE);
                     holder.mStaffName.setText(RoomList.get(position).getStaffname());
+                    holder.mRequestedEquipmentLayout.setVisibility(View.VISIBLE);
+                    holder.mRequestedEquipment.setText(RoomList.get(position).getRequestedEquipment());
+                    holder.mBookingPurposeLayout.setVisibility(View.VISIBLE);
+                    holder.mBookingPurpose.setText(RoomList.get(position).getBookingPurpose());
                 }
                 else {
                     holder.mTableLayout.setVisibility(View.GONE);
+                    holder.mRequestedEquipmentLayout.setVisibility(View.GONE);
+                    holder.mBookingPurposeLayout.setVisibility(View.GONE);
                 }
             }
 
