@@ -40,11 +40,12 @@ public class AdminBookedRooms extends Fragment {
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_STAFF = "staff";
     public static final String ROOM_STAFF_ID = "staffId";
-    private DatabaseReference mRoomsDatabase,mBookingDatabase;
+    public static final String ROOM_DATE = "bookingDate";
+    private DatabaseReference mRoomsDatabase,mBookingDatabase, RoomKeyRef;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, url, staff_id, staff_name, requestedEquipment, bookingPurpose;
+    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, url, staff_id, staff_name, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime;
 
     public AdminBookedRooms() {
         // Required empty public constructor
@@ -88,6 +89,7 @@ public class AdminBookedRooms extends Fragment {
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
                     intent.putExtra(ROOM_STAFF, room.getStaffname());
                     intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
+                    intent.putExtra(ROOM_DATE, room.getBookingDate());
 
                     startActivity(intent);
                 }
@@ -122,27 +124,47 @@ public class AdminBookedRooms extends Fragment {
 
     private void getRoomListDbInformation(String key) {
 
-        DatabaseReference RoomKeyRef = mRoomsDatabase.child(key);
+        RoomKeyRef = mRoomsDatabase.child(key);
 
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                roomID = dataSnapshot.child("roomno").getValue().toString();
-                roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
-                roomSoftware = dataSnapshot.child("software").getValue().toString();
-                roomHardware = dataSnapshot.child("hardware").getValue().toString();
-                block = dataSnapshot.child("block").getValue().toString();
-                floor = dataSnapshot.child("floor").getValue().toString();
-                url  = dataSnapshot.child("roomimage").getValue().toString();
-                staff_name  = dataSnapshot.child("staff").getValue().toString();
-                staff_id  = dataSnapshot.child("staffId").getValue().toString();
-                requestedEquipment = dataSnapshot.child("requestedEquipment").getValue().toString();
-                bookingPurpose = dataSnapshot.child("bookingPurpose").getValue().toString();
+                for (DataSnapshot dateRoomBooked: dataSnapshot.getChildren()) {
+                    System.out.println("dateRoomBooked: " + dateRoomBooked);
+                    for (DataSnapshot staffRoomBooked :dateRoomBooked.getChildren()) {
+                        System.out.println("staffRoomBooked: " + staffRoomBooked.getKey());
 
-                Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor, url,staff_name, staff_id, requestedEquipment, bookingPurpose);
-                roomListingResult.add(roomObj);
-                mRoomItemAdapter.notifyDataSetChanged();
+                        System.out.println(staffRoomBooked.child("roomcapacity").getValue().toString());
+                        roomID = staffRoomBooked.child("roomno").getValue().toString();
+                        roomCapacity = staffRoomBooked.child("roomcapacity").getValue().toString();
+                        roomSoftware = staffRoomBooked.child("software").getValue().toString();
+                        roomHardware = staffRoomBooked.child("hardware").getValue().toString();
+                        block = staffRoomBooked.child("block").getValue().toString();
+                        floor = staffRoomBooked.child("floor").getValue().toString();
+                        url  = staffRoomBooked.child("roomimage").getValue().toString();
+                        staff_name  = staffRoomBooked.child("staff").getValue().toString();
+                        staff_id = staffRoomBooked.child("staffId").getValue().toString();
+                        requestedEquipment = staffRoomBooked.child("requestedEquipment").getValue().toString();
+                        bookingPurpose = staffRoomBooked.child("bookingPurpose").getValue().toString();
+                        bookingDate = staffRoomBooked.child("bookingDate").getValue().toString();
+                        startTime = staffRoomBooked.child("startTime").getValue().toString();
+                        endTime = staffRoomBooked.child("endTime").getValue().toString();
+
+                        System.out.println("requestedEquipment : " + requestedEquipment);
+                        System.out.println("bookingPurpose: " + bookingPurpose);
+
+                        //Get current staff name
+                        Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff_name, staff_id, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime);
+                        roomListingResult.add(roomObj);
+                        mRoomItemAdapter.notifyDataSetChanged();
+                        /*if(currentUserName.equals(staff)){
+                            Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId, requestedEquipment, bookingPurpose);
+                            roomListingResult.add(roomObj);
+                            mRoomItemAdapter.notifyDataSetChanged();
+                        }*/
+                    }
+                }
             }
 
             @Override
