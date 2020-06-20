@@ -40,12 +40,13 @@ public class BookedRooms extends Fragment {
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_IMAGE = "roomimage";
     public static final String ROOM_STAFF_ID = "staffId";
+    public static final String ROOM_DATE = "bookingDate";
     private DatabaseReference mRoomsDatabase, mUserDatabase;
+    private DatabaseReference RoomKeyRef;
     private RecyclerView mRoomRecyclerView;
     private RoomsAdapter mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
-    String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor, currentId, url, staff,currentUserName, staffId, requestedEquipment, bookingPurpose;
-
+    String roomID, roomCapacity, roomSoftware, roomHardware, block, floor, currentId, url, staff,currentUserName, staffId, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime;
     public BookedRooms() {
         // Required empty public constructor
     }
@@ -71,6 +72,7 @@ public class BookedRooms extends Fragment {
         mRoomRecyclerView.setLayoutManager(mRoomLayoutManager);
         mRoomItemAdapter = new RoomsAdapter(getRoomListing(), getActivity());
         mRoomRecyclerView.setAdapter(mRoomItemAdapter);
+
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users");
 
@@ -105,6 +107,7 @@ public class BookedRooms extends Fragment {
                     intent.putExtra(ROOM_FLOOR, room.getFloor());
                     intent.putExtra(ROOM_IMAGE, room.getRoomimage());
                     intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
+                    intent.putExtra(ROOM_DATE, room.getBookingDate());
                     startActivity(intent);
                 }
             });
@@ -136,36 +139,52 @@ public class BookedRooms extends Fragment {
     }
 
     private void getRoomListDbInformation(String key) {
-
-        DatabaseReference RoomKeyRef = mRoomsDatabase.child(key);
+        System.out.println("getRoomListDbInformation Key: " + key);
+        RoomKeyRef = mRoomsDatabase.child(key);
 
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                roomID = dataSnapshot.child("roomno").getValue().toString();
-                roomCapacity = dataSnapshot.child("roomcapacity").getValue().toString();
-                roomSoftware = dataSnapshot.child("software").getValue().toString();
-                roomHardware = dataSnapshot.child("hardware").getValue().toString();
-                block = dataSnapshot.child("block").getValue().toString();
-                floor = dataSnapshot.child("floor").getValue().toString();
-                url  = dataSnapshot.child("roomimage").getValue().toString();
-                staff  = dataSnapshot.child("staff").getValue().toString();
-                staffId = dataSnapshot.child("staffId").getValue().toString();
-                requestedEquipment = dataSnapshot.child("requestedEquipment").getValue().toString();
-                bookingPurpose = dataSnapshot.child("bookingPurpose").getValue().toString();
+                for (DataSnapshot dateRoomBooked: dataSnapshot.getChildren()) {
+                    System.out.println("dateRoomBooked: " + dateRoomBooked);
+                    System.out.println("currentId: " + currentId);
+                    for (DataSnapshot staffRoomBooked :dateRoomBooked.getChildren()) {
+                        System.out.println("staffRoomBooked: " + staffRoomBooked.getKey());
+                        System.out.println("currentId: " + currentId);
+                        if(staffRoomBooked.getKey().equals(currentId))
+                        {
+                            System.out.println(staffRoomBooked.child("roomcapacity").getValue().toString());
+                            roomID = staffRoomBooked.child("roomno").getValue().toString();
+                            roomCapacity = staffRoomBooked.child("roomcapacity").getValue().toString();
+                            roomSoftware = staffRoomBooked.child("software").getValue().toString();
+                            roomHardware = staffRoomBooked.child("hardware").getValue().toString();
+                            block = staffRoomBooked.child("block").getValue().toString();
+                            floor = staffRoomBooked.child("floor").getValue().toString();
+                            url  = staffRoomBooked.child("roomimage").getValue().toString();
+                            staff  = staffRoomBooked.child("staff").getValue().toString();
+                            staffId = staffRoomBooked.child("staffId").getValue().toString();
+                            requestedEquipment = staffRoomBooked.child("requestedEquipment").getValue().toString();
+                            bookingPurpose = staffRoomBooked.child("bookingPurpose").getValue().toString();
+                            bookingDate = staffRoomBooked.child("bookingDate").getValue().toString();
+                            startTime = staffRoomBooked.child("startTime").getValue().toString();
+                            endTime = staffRoomBooked.child("endTime").getValue().toString();
 
-                System.out.println("requestedEquipment : " + requestedEquipment);
-                System.out.println("bookingPurpose: " + bookingPurpose);
+                            System.out.println("requestedEquipment : " + requestedEquipment);
+                            System.out.println("bookingPurpose: " + bookingPurpose);
 
-                //Get current staff name
-
-                if(currentUserName.equals(staff)){
-                    Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId, requestedEquipment, bookingPurpose);
-                    roomListingResult.add(roomObj);
-                    mRoomItemAdapter.notifyDataSetChanged();
+                            //Get current staff name
+                            Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime);
+                            roomListingResult.add(roomObj);
+                            mRoomItemAdapter.notifyDataSetChanged();
+                            /*if(currentUserName.equals(staff)){
+                                Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff, staffId, requestedEquipment, bookingPurpose);
+                                roomListingResult.add(roomObj);
+                                mRoomItemAdapter.notifyDataSetChanged();
+                            }*/
+                        }
+                    }
                 }
-
             }
 
             @Override

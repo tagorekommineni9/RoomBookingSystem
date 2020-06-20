@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.Item;
 import com.example.roombookingsystem.activities.admin.MultiSelectionSpinner;
+import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -51,12 +52,14 @@ public class BookRoom extends AppCompatActivity {
     //MultiSelectionSpinner sp_hardware, sp_software;
     private TextView mDate, mDuration;
     EditText requestedEquipment;
+    DatabaseReference bookingReference;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Map<String, Integer> startDurationCalc = new HashMap<>();
     private Map<String, Integer> endDurationCalc = new HashMap<>();
-    private String start, end;
+    private String start, end, dateBooking;
     private String[] startSplit, endSplit;
-    private int durationTime;
+    private int durationTime, startTime, endTime, hours;
+    private int startTimeDb, endTimeDb;
 
 
     public BookRoom() {
@@ -203,6 +206,8 @@ public class BookRoom extends AppCompatActivity {
                     endSplit = end.split(":");
                     start = startTimeSpinner.getSelectedItem().toString();
                     startSplit = start.split(":");
+                    startTime = Integer.parseInt(startSplit[0]);
+                    endTime = Integer.parseInt(endSplit[0]);
                     durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
                     mDuration.setText("" +durationTime);
                 }
@@ -227,6 +232,8 @@ public class BookRoom extends AppCompatActivity {
                     startSplit = start.split(":");
                     end = endTimeSpinner.getSelectedItem().toString();
                     endSplit = end.split(":");
+                    startTime = Integer.parseInt(startSplit[0]);
+                    endTime = Integer.parseInt(endSplit[0]);
                     durationTime = Integer.parseInt(endSplit[0]) - Integer.parseInt(startSplit[0]);
                     mDuration.setText("" +durationTime);
                 }
@@ -280,7 +287,7 @@ public class BookRoom extends AppCompatActivity {
                 {
                     months = String.valueOf(day);
                 }
-                String date = months + "/" + day + "/" + year;
+                String date = months + "-" + day + "-" + year;
                 System.out.println("Date : " + date);
                 mDate.setText(date);
             }
@@ -373,7 +380,7 @@ public class BookRoom extends AppCompatActivity {
                             return;
                         }
                     }
-                    int hours = Integer.parseInt(mDuration.getText().toString());
+                    hours = Integer.parseInt(mDuration.getText().toString());
                     if (hours <= 0) {
                         Toast.makeText(BookRoom.this, "End time should be more than start time", Toast.LENGTH_LONG).show();
                     } else
@@ -381,54 +388,111 @@ public class BookRoom extends AppCompatActivity {
                         // String key = mBookingsDatabase.push().getKey();
                         System.out.println("Inside else");
                         mBookingsDatabase.child(roomID).child("booking_id").setValue(roomID);
-                        DatabaseReference bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID);
-
-                        //Map to get values from Rooms database, Store to strings, push to bookings db, make roomsdb not availble
-                        HashMap<String,Object> bookingsMap = new HashMap<>();
-
-                        bookingsMap.put("roomno",roomID);
-                        bookingsMap.put("available",false);
-                        bookingsMap.put("block",block);
-                        bookingsMap.put("floor",floor);
-                        bookingsMap.put("hardware",roomHardware);
-                        bookingsMap.put("software",roomSoftware);
-                        bookingsMap.put("roomcapacity",roomCapacity);
-                        bookingsMap.put("staff",staffName);
-                        bookingsMap.put("staffId",currentId);
-                        bookingsMap.put("duration",hours);
-                        bookingsMap.put("starttime", start);
-                        bookingsMap.put("endtime", end);
-                        bookingsMap.put("roomimage",url);
-                        bookingsMap.put("bookingDate",mDate.getText().toString());
-                        bookingsMap.put("bookingPurpose", bookingPurposeSpinner.getSelectedItem().toString());
-                        System.out.println("Testing requested");
-                        System.out.println("Requested Equipment: " + requestedEquipment.getText().toString());
-                        if(requestedEquipment.getText().toString().equals(""))
-                        {
-                            bookingsMap.put("requestedEquipment", "NA");
-                        }
-                        else
-                        {
-                            bookingsMap.put("requestedEquipment", requestedEquipment.getText().toString());
-                        }
-                        mRoomsDatabase.child("available").setValue(false);
-                        //mRoomsDatabase.child("duration").setValue(hours);
-                        //mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
-
-                        //create bookings table with all room information
-                        bookingReference.updateChildren(bookingsMap);
-
-                        //create a timing table
+                        dateBooking = mDate.getText().toString();
+                        bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking);
 
 
-                        Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        //new
+                        bookingReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    for(DataSnapshot staffList : dataSnapshot.getChildren()){
+                                        checkStaffListDbInformation(staffList.getKey(), dateBooking);
+                                    }
+                                }
+                                else
+                                {
+                                    bookRoomDbSetData();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 }
             }
         });
     }
 
+    private void checkStaffListDbInformation(String key, String dateBooking) {
+        DatabaseReference StaffKeyRef = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking).child(key);
+        System.out.println("Inside checkStaffListDbInformation");
+        //Toast.makeText(this, "Inside checkStaffListDbInformation()", Toast.LENGTH_SHORT).show();
+        StaffKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Inside onDataChange");
+                if(dataSnapshot.exists()) {
+                    startTimeDb = Integer.parseInt(dataSnapshot.child("startTime").getValue().toString());
+                    System.out.println("startTimeDb: " + startTimeDb);
+                    endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
+                    System.out.println("endTimeDb: " + endTimeDb);
+                    if (dataSnapshot.exists() && (startTime >= startTimeDb && startTime < endTimeDb)) {
+                        Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else
+                    {
+                        bookRoomDbSetData();
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void bookRoomDbSetData(){
+        //Map to get values from Rooms database, Store to strings, push to bookings db, make roomsdb not availble
+        HashMap<String,Object> bookingsMap = new HashMap<>();
+
+        bookingsMap.put("roomno",roomID);
+
+        bookingsMap.put("available",true);
+        bookingsMap.put("block",block);
+        bookingsMap.put("floor",floor);
+        bookingsMap.put("hardware",roomHardware);
+        bookingsMap.put("software",roomSoftware);
+        bookingsMap.put("roomcapacity",roomCapacity);
+        bookingsMap.put("staff",staffName);
+        bookingsMap.put("staffId",currentId);
+        bookingsMap.put("duration",hours);
+        bookingsMap.put("roomimage",url);
+        bookingsMap.put("startTime", startTime);
+        bookingsMap.put("endTime", endTime);
+        bookingsMap.put("bookingDate",mDate.getText().toString());
+        bookingsMap.put("bookingPurpose", bookingPurposeSpinner.getSelectedItem().toString());
+        System.out.println("Testing requested");
+        System.out.println("Requested Equipment: " + requestedEquipment.getText().toString());
+        if(requestedEquipment.getText().toString().equals(""))
+        {
+            bookingsMap.put("requestedEquipment", "NA");
+        }
+        else
+        {
+            bookingsMap.put("requestedEquipment", requestedEquipment.getText().toString());
+        }
+        //mRoomsDatabase.child("available").setValue(false);
+        //mRoomsDatabase.child("duration").setValue(hours);
+        //mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
+
+        //create bookings table with all room information
+        bookingReference.child(currentId).updateChildren(bookingsMap);
+
+        Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 }

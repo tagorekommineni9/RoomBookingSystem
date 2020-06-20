@@ -1,5 +1,6 @@
 package com.example.roombookingsystem.activities.staff;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +21,11 @@ import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
     Button btn_cancel;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
-
+    String date;
     MaterialToolbar toolbar;
 
     @Override
@@ -80,6 +84,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
         roomIsAvailable = intent.getStringExtra(BookedRooms.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(BookedRooms.ROOM_BLOCK);
         floor = intent.getStringExtra(BookedRooms.ROOM_FLOOR);
+        date = intent.getStringExtra(BookedRooms.ROOM_DATE);
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
@@ -95,24 +100,45 @@ public class ModifyBookedRoom extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mBookingsDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            if (dataSnapshot.child(date).child(currentId).exists())
+                            {
+
+                                //remove from bookings table
+                                mBookingsDatabase.child(date).child(currentId).removeValue();
+
+                                //remove from users table
+                                mUserDatabase.child("bookings").child(roomID).removeValue();
+
+                                //set Room to available
+                                mRoomsDatabase.child("available").setValue(true);
+
+                                Toast.makeText(getApplicationContext(), "Booking Removed!", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
-                //remove from bookings table
-                mBookingsDatabase.removeValue();
-                //remove from users table
-                mUserDatabase.child("bookings").child(roomID).removeValue();
-
-                //set Room to available
-                mRoomsDatabase.child("available").setValue(true);
-
-                Toast.makeText(getApplicationContext(), "Booking Removed!", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
             }
         });
+
+
     }
+
 
 
     private ArrayList<Rooms> roomListingResult= new ArrayList<Rooms>();

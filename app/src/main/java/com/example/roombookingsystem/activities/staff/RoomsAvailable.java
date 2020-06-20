@@ -42,6 +42,7 @@ public class RoomsAvailable extends Fragment {
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_IMAGE = "roomimage";
 
+
     String roomID, roomCapacity, roomSoftware, roomHardware, available, block, floor,url;
 
     private DatabaseReference mRoomsDatabase;
@@ -123,7 +124,6 @@ public class RoomsAvailable extends Fragment {
 
         DatabaseReference RoomKeyRef = mRoomsDatabase.child(key);
 
-        //add ref to timings table get start time and end time
         RoomKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
