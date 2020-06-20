@@ -19,6 +19,7 @@ import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.RegistrationActivity;
 import com.example.roombookingsystem.activities.UserLoginActivity;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
+import com.example.roombookingsystem.activities.staff.BookedRooms;
 import com.example.roombookingsystem.activities.staff.RoomsAvailable;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ public class AdminModifyRoom extends AppCompatActivity {
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, url;
     int spinnerPosition = 0;
     MaterialToolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +130,7 @@ public class AdminModifyRoom extends AppCompatActivity {
                     else {
                         room_available = false;
                     }
-                    updateRoom(room_no, room_capacity, room_software, room_hardware, room_available, room_block, room_floor, url);
+                    updateRoom(room_no, room_capacity, room_hardware, room_software, room_available, room_block, room_floor, url);
                     Intent AdminDashIntent = new Intent(AdminModifyRoom.this, AdminDashboardActivity.class);
                     startActivity(AdminDashIntent);
                 }

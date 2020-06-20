@@ -1,5 +1,6 @@
 package com.example.roombookingsystem.activities.admin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,8 +17,11 @@ import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.example.roombookingsystem.activities.staff.BookedRooms;
 import com.example.roombookingsystem.activities.staff.StaffDashboardActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
     private TableLayout mTableLayoutView;
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
     Button btncancel;
+    String date;
     String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
 
     @Override
@@ -58,6 +63,8 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         block = intent.getStringExtra(AdminBookedRooms.ROOM_BLOCK);
         floor = intent.getStringExtra(AdminBookedRooms.ROOM_FLOOR);
         currentId = intent.getStringExtra(AdminBookedRooms.ROOM_STAFF_ID);
+        date = intent.getStringExtra(AdminBookedRooms.ROOM_DATE);
+
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
@@ -73,21 +80,43 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         btncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Remove from booking collection
-                mBookingDatabase.removeValue();
 
-                //set availability in rooms
-                mRoomsDatabase.child("available").setValue(true);
+                mBookingDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            if (dataSnapshot.child(date).child(currentId).exists())
+                            {
 
-                //Remove from user collection
-                mUserDatabase.child(roomID).removeValue();
-                Toast.makeText(getApplicationContext(), "Room updated", Toast.LENGTH_LONG).show();
+                                //remove from bookings table
+                                mBookingDatabase.child(date).child(currentId).removeValue();
 
-                Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                                //remove from users table
+                                mUserDatabase.child("bookings").child(roomID).removeValue();
+
+                                //set Room to available
+                                mRoomsDatabase.child("available").setValue(true);
+
+                                Toast.makeText(getApplicationContext(), "Booking Removed!", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
             }
         });
+
     }
 
 
