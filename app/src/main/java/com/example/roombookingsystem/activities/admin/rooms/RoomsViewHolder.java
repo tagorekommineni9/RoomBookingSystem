@@ -15,10 +15,10 @@ import com.example.roombookingsystem.R;
 public class RoomsViewHolder extends RecyclerView.ViewHolder {
 
 
-    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor, mStaffName, mRequestedEquipment, mBookingPurpose;
+    public TextView mRoomNo, mRoomCapacity, mHardware, mSoftware, mBlock, mFloor, mStaffName, mRequestedEquipment, mBookingPurpose, mBookingDate, mStartTime, mEndTime;
     Spinner mAvailable;
     ImageView mRoomImage;
-    TableRow mTableLayout, mRequestedEquipmentLayout, mBookingPurposeLayout;
+    TableRow mTableLayout, mRequestedEquipmentLayout, mBookingPurposeLayout, mBookingDateLayout, mStartTimeLayout, mEndTimeLayout;
 
 
     public RoomsViewHolder(@NonNull View itemView, final RoomsAdapter.OnItemClickListener listener) {
@@ -37,6 +37,12 @@ public class RoomsViewHolder extends RecyclerView.ViewHolder {
         mTableLayout = itemView.findViewById(R.id.staff_layout);
         mRequestedEquipmentLayout = itemView.findViewById(R.id.requestedEquipment_layout);
         mBookingPurposeLayout = itemView.findViewById(R.id.bookingPurpose_layout);
+        mBookingDate = itemView.findViewById(R.id.tv_bookingDate);
+        mStartTime = itemView.findViewById(R.id.tv_start_time);
+        mEndTime = itemView.findViewById(R.id.tv_end_time);
+        mBookingDateLayout = itemView.findViewById(R.id.bookingDate_layout);
+        mStartTimeLayout = itemView.findViewById(R.id.startTime_layout);
+        mEndTimeLayout = itemView.findViewById(R.id.endTime_layout);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,6 +11,12 @@ public class Rooms {
     boolean available;
     String requestedEquipment;
     String bookingPurpose;
+    String bookingDate;
+    String startTime;
+    String endTime;
+    String staffname;
+    String staffId;
+    String roomimage;
 
     public String getStaffname() {
         return staffname;
@@ -19,9 +25,6 @@ public class Rooms {
     public void setStaffname(String staffname) {
         this.staffname = staffname;
     }
-
-    String staffname;
-    String staffId;
 
     public String getStaffId() {
         return staffId;
@@ -38,9 +41,6 @@ public class Rooms {
     public void setRoomimage(String roomimage) {
         this.roomimage = roomimage;
     }
-
-    String roomimage;
-
 
     public String getRoomcapacity() {
         return roomcapacity;
@@ -97,6 +97,30 @@ public class Rooms {
     public String getBookingPurpose() { return bookingPurpose; }
 
     public void setBookingPurpose(String bookingPurpose) { this.bookingPurpose = bookingPurpose; }
+
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public Rooms(String roomno, String roomcapacity, String hardware, String software) {
         this.roomno = roomno;
@@ -180,7 +204,7 @@ public class Rooms {
         this.staffname = staffname;
     }
 
-    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage, String staffname, String staffId, String requestedEquipment, String bookingPurpose) {
+    public Rooms(String roomno, String roomcapacity, String hardware, String software, String block, String floor, String roomimage, String staffname, String staffId, String requestedEquipment, String bookingPurpose, String bookingDate, String startTime, String endtime) {
         this.roomno = roomno;
         this.roomcapacity = roomcapacity;
         this.hardware = hardware;
@@ -192,5 +216,8 @@ public class Rooms {
         this.staffId = staffId;
         this.requestedEquipment = requestedEquipment;
         this.bookingPurpose = bookingPurpose;
+        this.bookingDate = bookingDate;
+        this.startTime = startTime;
+        this.endTime = endtime;
     }
 }

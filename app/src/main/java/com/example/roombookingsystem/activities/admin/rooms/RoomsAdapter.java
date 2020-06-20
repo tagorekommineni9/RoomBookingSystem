@@ -68,17 +68,26 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(RoomList.get(position).getRoomno()).exists()){
-                    holder.mTableLayout.setVisibility(View.VISIBLE);
+                    holder.mTableLayout.setVisibility(View.GONE);
                     holder.mStaffName.setText(RoomList.get(position).getStaffname());
                     holder.mRequestedEquipmentLayout.setVisibility(View.VISIBLE);
                     holder.mRequestedEquipment.setText(RoomList.get(position).getRequestedEquipment());
                     holder.mBookingPurposeLayout.setVisibility(View.VISIBLE);
                     holder.mBookingPurpose.setText(RoomList.get(position).getBookingPurpose());
+                    holder.mBookingDate.setText(RoomList.get(position).getBookingDate());
+                    holder.mBookingDateLayout.setVisibility(View.VISIBLE);
+                    holder.mStartTime.setText(RoomList.get(position).getStartTime());
+                    holder.mStartTimeLayout.setVisibility(View.VISIBLE);
+                    holder.mEndTime.setText(RoomList.get(position).getEndTime());
+                    holder.mEndTimeLayout.setVisibility(View.VISIBLE);
                 }
                 else {
                     holder.mTableLayout.setVisibility(View.GONE);
                     holder.mRequestedEquipmentLayout.setVisibility(View.GONE);
                     holder.mBookingPurposeLayout.setVisibility(View.GONE);
+                    holder.mBookingDateLayout.setVisibility(View.GONE);
+                    holder.mStartTimeLayout.setVisibility(View.GONE);
+                    holder.mEndTimeLayout.setVisibility(View.GONE);
                 }
             }
 
