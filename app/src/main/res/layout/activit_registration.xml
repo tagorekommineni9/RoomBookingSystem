@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg_color">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
         android:layout_below="@id/toolbar"
         android:id="@+id/registration"
         android:gravity="center"
-        android:textColor="#101010"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:layout_marginBottom="32dp"
         />
@@ -49,9 +48,7 @@
                 android:paddingLeft="5dp"
                 android:textColor="#000000"
                 android:layout_weight="0"
-                android:text="Name "
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:drawablePadding="7dp"/>
+                android:text="Name " />
 
             <EditText
                 android:id="@+id/et_name"
@@ -77,9 +74,7 @@
                 android:paddingLeft="5dp"
                 android:textColor="#000000"
                 android:layout_weight="0"
-                android:text="Phone "
-                android:drawableLeft="@drawable/ic_phone_black_24dp"
-                android:drawablePadding="7dp"/>
+                android:text="Phone " />
 
             <EditText
                 android:id="@+id/et_phone"
@@ -107,9 +102,7 @@
                 android:paddingLeft="5dp"
                 android:textColor="#000000"
                 android:layout_weight="0"
-                android:text="Email "
-                android:drawableLeft="@drawable/ic_email_black"
-                android:drawablePadding="7dp"/>
+                android:text="Email " />
 
             <EditText
                 android:id="@+id/et_email"
@@ -136,9 +129,7 @@
                 android:paddingLeft="5dp"
                 android:textColor="#000000"
                 android:layout_weight="0"
-                android:text="Password "
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:drawablePadding="7dp"/>
+                android:text="Password " />
 
             <EditText
                 android:id="@+id/et_password"
@@ -165,9 +156,7 @@
                 android:paddingLeft="5dp"
                 android:textColor="#000000"
                 android:layout_weight="0"
-                android:text="Confirm Password "
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:drawablePadding="7dp"/>
+                android:text="Confirm Password " />
 
             <EditText
                 android:id="@+id/et_confirm_pwd"
@@ -194,6 +183,6 @@
             android:textColor="#FAF5F5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/orangr_rounded" />
+            android:background="@drawable/button_login" />
     </TableLayout>
 </RelativeLayout>
