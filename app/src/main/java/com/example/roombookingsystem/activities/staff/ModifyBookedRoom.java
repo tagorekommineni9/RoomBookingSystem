@@ -100,7 +100,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBookingsDatabase.addValueEventListener(new ValueEventListener() {
+                mBookingsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists())
@@ -117,7 +117,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
                                 //set Room to available
                                 mRoomsDatabase.child("available").setValue(true);
 
-                                Toast.makeText(getApplicationContext(), "Booking Removed!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Booking Removed Successfully!", Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);

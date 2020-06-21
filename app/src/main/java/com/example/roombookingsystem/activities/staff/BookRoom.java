@@ -351,11 +351,7 @@ public class BookRoom extends AppCompatActivity {
                 {
                     Toast.makeText(BookRoom.this, "Select Hardware and software", Toast.LENGTH_LONG).show();
                 }*/
-                if(mDuration.getText().toString().equals(""))
-                {
-                    Toast.makeText(BookRoom.this, "Click duration button to confirm no of hours", Toast.LENGTH_LONG).show();
-                }
-                else if(mDate.getText().toString().equals(""))
+               if(mDate.getText().toString().equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Select Date", Toast.LENGTH_LONG).show();
                 }
@@ -423,7 +419,7 @@ public class BookRoom extends AppCompatActivity {
         DatabaseReference StaffKeyRef = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking).child(key);
         System.out.println("Inside checkStaffListDbInformation");
         //Toast.makeText(this, "Inside checkStaffListDbInformation()", Toast.LENGTH_SHORT).show();
-        StaffKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        StaffKeyRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("Inside onDataChange");
@@ -439,12 +435,7 @@ public class BookRoom extends AppCompatActivity {
                     else
                     {
                         bookRoomDbSetData();
-                        return;
                     }
-                }
-                else
-                {
-                    return;
                 }
             }
 
