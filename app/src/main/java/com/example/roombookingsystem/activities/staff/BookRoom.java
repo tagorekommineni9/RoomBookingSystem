@@ -154,6 +154,7 @@ public class BookRoom extends AppCompatActivity {
         bookingPurposeList.add("Exam");
         bookingPurposeList.add("Meeting");
 
+
         ArrayAdapter<String> bookingPurposeAdapter =
                 new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, bookingPurposeList);
         bookingPurposeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -360,7 +361,7 @@ public class BookRoom extends AppCompatActivity {
                 }
                 else
                 {
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY HH:mm:ss");
                     Date date = new Date();
                     String currentDate = formatter.format(date);
                     System.out.println("Current date: " + currentDate);
@@ -438,6 +439,7 @@ public class BookRoom extends AppCompatActivity {
                     else
                     {
                         bookRoomDbSetData();
+                        return;
                     }
                 }
                 else
