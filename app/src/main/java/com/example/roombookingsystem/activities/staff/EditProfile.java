@@ -1,5 +1,6 @@
 package com.example.roombookingsystem.activities.staff;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
+import com.example.roombookingsystem.activities.SplashActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,6 +111,8 @@ public class EditProfile extends Fragment {
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getContext(), "Staff Information is updated successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), StaffDashboardActivity.class);
+                            startActivity(intent);
                         }
                         else
                         {
