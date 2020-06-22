@@ -1,8 +1,5 @@
 package com.example.roombookingsystem.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.roombookingsystem.R;
-import com.example.roombookingsystem.activities.staff.StaffDashboardActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -148,6 +147,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
+                            }
+                            else{
+                                Toast.makeText(RegistrationActivity.this, "Email you entered is already registered!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
