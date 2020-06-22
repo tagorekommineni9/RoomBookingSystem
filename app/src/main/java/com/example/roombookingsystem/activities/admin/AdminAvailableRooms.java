@@ -1,6 +1,9 @@
 package com.example.roombookingsystem.activities.admin;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,13 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
-import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter;
+import com.example.roombookingsystem.activities.admin.rooms.RoomsAdapter2;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +30,7 @@ public class AdminAvailableRooms extends Fragment {
 
     private DatabaseReference mRoomsDatabase;
     private RecyclerView mRoomRecyclerView;
-    private RoomsAdapter mRoomItemAdapter;
+    private RoomsAdapter2 mRoomItemAdapter;
     private RecyclerView.LayoutManager mRoomLayoutManager;
     String roomID, roomCapacity, roomSoftware, roomHardware, available,  block, floor,url;
 
@@ -56,7 +55,7 @@ public class AdminAvailableRooms extends Fragment {
         mRoomRecyclerView.setHasFixedSize(true);
         mRoomLayoutManager = new LinearLayoutManager(getActivity());
         mRoomRecyclerView.setLayoutManager(mRoomLayoutManager);
-        mRoomItemAdapter = new RoomsAdapter(getRoomListing(), getActivity());
+        mRoomItemAdapter = new RoomsAdapter2(getRoomListing(), getActivity());
         mRoomRecyclerView.setAdapter(mRoomItemAdapter);
 
         setRoomData();
