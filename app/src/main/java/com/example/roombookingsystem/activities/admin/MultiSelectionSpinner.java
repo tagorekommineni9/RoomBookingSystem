@@ -76,12 +76,12 @@ public class MultiSelectionSpinner extends androidx.appcompat.widget.AppCompatSp
                 "setAdapter is not supported by MultiSelectSpinner.");
     }
 
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(ArrayList<Item> items) {    // Getting the list of items added
         this.items = items;
-        selection = new boolean[this.items.size()];
-        adapter.clear();
-        adapter.add("");
-        Arrays.fill(selection, false);
+        selection = new boolean[this.items.size()]; //Initializing the boolean[] with the items size
+        adapter.clear();  // Remove all elements from the list.
+        adapter.add("");  //Adds the specified object at the end of the array.
+        Arrays.fill(selection, false);  //Assigns the specified boolean value to each element of the specified array of booleans.
     }
 
     public void setSelection(ArrayList<Item> selection) {

@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,10 +17,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.roombookingsystem.R;
-import com.example.roombookingsystem.activities.RegistrationActivity;
-import com.example.roombookingsystem.activities.UserLoginActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,8 +38,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -256,6 +250,10 @@ public class AdminAddRooms extends Fragment {
                                 }
                                 Toast.makeText(getContext(), "New Class room is added", Toast.LENGTH_SHORT).show();
                                 goToDashboard();
+
+                            }
+                            else{
+                                Toast.makeText(getContext(), "Room already exists with this room number!", Toast.LENGTH_SHORT).show();
 
                             }
                         }
