@@ -88,8 +88,8 @@ public class ModifyBookedRoom extends AppCompatActivity {
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
-        mRoomHardware.setText(roomHardware);
-        mRoomSoftware.setText(roomSoftware);
+        mRoomHardware.setText(roomSoftware);
+        mRoomSoftware.setText(roomHardware);
         mBlock.setText(block);
         mFloor.setText(floor);
 
