@@ -54,8 +54,8 @@ public class BookRoom extends AppCompatActivity {
     EditText requestedEquipment;
     DatabaseReference bookingReference;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private Map<String, Integer> startDurationCalc = new HashMap<>();
-    private Map<String, Integer> endDurationCalc = new HashMap<>();
+    //private Map<String, Integer> startDurationCalc = new HashMap<>();
+    //private Map<String, Integer> endDurationCalc = new HashMap<>();
     private String start, end, dateBooking;
     private String[] startSplit, endSplit;
     private int durationTime, startTime, endTime, hours;
@@ -172,17 +172,17 @@ public class BookRoom extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        startDurationCalc.put("day", 0);
+   /*     startDurationCalc.put("day", 0);
         startDurationCalc.put("month", 0);
         startDurationCalc.put("year", 0);
         endDurationCalc.put("day", 0);
         endDurationCalc.put("month", 0);
-        endDurationCalc.put("year", 0);
+        endDurationCalc.put("year", 0);  */
 
         roomID = intent.getStringExtra(RoomsAvailable.ROOM_ID);
         roomCapacity = intent.getStringExtra(RoomsAvailable.ROOM_CAPACITY);
-        roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
-        roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
+        roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
+        roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
         //roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
         floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
@@ -286,7 +286,7 @@ public class BookRoom extends AppCompatActivity {
                 }
                 else
                 {
-                    months = String.valueOf(day);
+                    months = String.valueOf(month);
                 }
                 String date = months + "-" + day + "-" + year;
                 System.out.println("Date : " + date);
@@ -351,7 +351,7 @@ public class BookRoom extends AppCompatActivity {
                 {
                     Toast.makeText(BookRoom.this, "Select Hardware and software", Toast.LENGTH_LONG).show();
                 }*/
-               if(mDate.getText().toString().equals(""))
+                if(mDate.getText().toString().equals(""))
                 {
                     Toast.makeText(BookRoom.this, "Select Date", Toast.LENGTH_LONG).show();
                 }

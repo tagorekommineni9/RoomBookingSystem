@@ -82,8 +82,8 @@ public class AdminModifyRoom extends AppCompatActivity {
 
         roomID = intent.getStringExtra(RoomsAvailable.ROOM_ID);
         roomCapacity = intent.getStringExtra(RoomsAvailable.ROOM_CAPACITY);
-        roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
-        roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
+        roomSoftware = intent.getStringExtra(RoomsAvailable.ROOM_SOFTWARE);
+        roomHardware = intent.getStringExtra(RoomsAvailable.ROOM_HARDWARE);
         roomIsAvailable = intent.getStringExtra(RoomsAvailable.ROOM_IS_AVAILABLE);
         block = intent.getStringExtra(RoomsAvailable.ROOM_BLOCK);
         floor = intent.getStringExtra(RoomsAvailable.ROOM_FLOOR);
