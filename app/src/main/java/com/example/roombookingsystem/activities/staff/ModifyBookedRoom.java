@@ -115,14 +115,9 @@ public class ModifyBookedRoom extends AppCompatActivity {
                                 //remove from users table
                                 mUserDatabase.child("bookings").child(roomID).removeValue();
 
-                                //set Room to available
-                                mRoomsDatabase.child("available").setValue(true);
-
                                 Toast.makeText(getApplicationContext(), "Booking Removed Successfully!", Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), StaffDashboardActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                finish();
                             }
                         }
                     }

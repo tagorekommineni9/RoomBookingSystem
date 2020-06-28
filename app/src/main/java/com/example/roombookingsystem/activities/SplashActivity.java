@@ -171,7 +171,6 @@ public class SplashActivity extends AppCompatActivity {
 
     }
     private boolean checkWithCurrentTime(String key, String dateDb) {
-        Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
 
         if(Integer.parseInt(key) < getCurrentTime() && dateDb.compareTo(getCurrentDate())<=0)
         {
