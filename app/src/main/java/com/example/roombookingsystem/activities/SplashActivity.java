@@ -32,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private DatabaseReference userDatabaseReference, mBookingDatabase;
     String userType;
+    String currentDate;
     private static int TIMER = 5000;
     Animation topAnim,bottomAnim;
     TextView logo;
@@ -130,7 +131,7 @@ public class SplashActivity extends AppCompatActivity {
                     {
                         for(DataSnapshot startTimeBooking: dates.getChildren())
                         {
-                            flagDeleteBooking = checkWithCurrentTime(startTimeBooking.getKey());
+                            flagDeleteBooking = checkWithCurrentTime(startTimeBooking.getKey(), dates.getKey());
                             if(flagDeleteBooking)
                             {
                                 mBookingDatabase.child(roomIds.getKey()).child(dates.getKey()).child(startTimeBooking.getKey()).removeValue();
@@ -151,12 +152,13 @@ public class SplashActivity extends AppCompatActivity {
     {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY HH:mm:ss");
         Date date = new Date();
-        String currentDate = formatter.format(date);
+         currentDate = formatter.format(date);
         currentTime = Integer.parseInt(currentDate.split(" ")[1].split(":")[0]);
+
         return currentTime;
     }
-    private boolean checkWithCurrentTime(String key) {
-        if(Integer.parseInt(key) <= getCurrentTime())
+    private boolean checkWithCurrentTime(String key, String dateDb) {
+        if(Integer.parseInt(key) < getCurrentTime() && dateDb.compareTo(currentDate)<0)
         {
             return true;
         }
