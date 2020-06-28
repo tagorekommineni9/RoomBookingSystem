@@ -96,6 +96,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         Intent signoutIntent = new Intent(AdminDashboardActivity.this, UserLoginActivity.class);
                         signoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(signoutIntent);
+                        finish();
                         break;
                 }
 

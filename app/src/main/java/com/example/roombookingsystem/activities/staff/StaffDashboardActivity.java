@@ -91,6 +91,7 @@ public class StaffDashboardActivity extends AppCompatActivity {
                         Intent signoutIntent = new Intent(StaffDashboardActivity.this, UserLoginActivity.class);
                         signoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(signoutIntent);
+                        finish();
                         break;
                 }
 

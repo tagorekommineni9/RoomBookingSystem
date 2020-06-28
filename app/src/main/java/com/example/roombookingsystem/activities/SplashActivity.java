@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
@@ -131,11 +132,13 @@ public class SplashActivity extends AppCompatActivity {
                     {
                         for(DataSnapshot startTimeBooking: dates.getChildren())
                         {
-                            flagDeleteBooking = checkWithCurrentTime(startTimeBooking.getKey(), dates.getKey());
+
+                            flagDeleteBooking = checkWithCurrentTime(startTimeBooking.child("endTime").getValue().toString(), dates.getKey());
                             if(flagDeleteBooking)
                             {
                                 mBookingDatabase.child(roomIds.getKey()).child(dates.getKey()).child(startTimeBooking.getKey()).removeValue();
                             }
+
                         }
                     }
                 }
@@ -152,13 +155,25 @@ public class SplashActivity extends AppCompatActivity {
     {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY HH:mm:ss");
         Date date = new Date();
-         currentDate = formatter.format(date);
+        currentDate = formatter.format(date);
+
         currentTime = Integer.parseInt(currentDate.split(" ")[1].split(":")[0]);
 
         return currentTime;
     }
+
+    private String getCurrentDate()
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY");
+        Date date = new Date();
+        currentDate = formatter.format(date);
+        return currentDate;
+
+    }
     private boolean checkWithCurrentTime(String key, String dateDb) {
-        if(Integer.parseInt(key) < getCurrentTime() && dateDb.compareTo(currentDate)<0)
+        Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
+
+        if(Integer.parseInt(key) < getCurrentTime() && dateDb.compareTo(getCurrentDate())<=0)
         {
             return true;
         }

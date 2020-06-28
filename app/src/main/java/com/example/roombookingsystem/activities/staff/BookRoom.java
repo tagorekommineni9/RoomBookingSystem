@@ -394,14 +394,16 @@ public class BookRoom extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    for(DataSnapshot staffList : dataSnapshot.getChildren()){
-                                        checkStaffListDbInformation(staffList.getKey(), dateBooking);
+                                    for(DataSnapshot timeList : dataSnapshot.getChildren()){
+                                        checkStaffListDbInformation(timeList.getKey(), dateBooking);
                                     }
                                 }
                                 else
                                 {
+
                                     bookRoomDbSetData();
                                 }
+
                             }
 
                             @Override
@@ -424,23 +426,33 @@ public class BookRoom extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("Inside onDataChange");
                 if(dataSnapshot.exists()) {
+
+
                     startTimeDb = Integer.parseInt(dataSnapshot.child("startTime").getValue().toString());
                     System.out.println("startTimeDb: " + startTimeDb);
                     endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
+                    String staffIdDb = dataSnapshot.child("staffId").getValue().toString();
                     System.out.println("endTimeDb: " + endTimeDb);
-                    if (dataSnapshot.exists() && (startTime >= startTimeDb && startTime < endTimeDb)) {
+                    System.out.println("start Time: " + startTime + " end Time: " + endTime + " start Time DB: "+ startTimeDb + " end Time DB: "+ endTimeDb);
+                    if (startTime >= startTimeDb && startTime < endTimeDb) {
                         Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
-                        return;
                     }
-                    else if(startTime > endTimeDb)
+
+                    System.out.println(staffIdDb + " " + currentId);
+
+                    if(startTime >= endTimeDb && startTime!= startTimeDb )
                     {
+                        //update or book a new room with same user id by extending the time
                         bookRoomDbSetData();
                     }
+
+
                 }
                 else
                 {
                     bookRoomDbSetData();
                 }
+
             }
 
             @Override
