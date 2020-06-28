@@ -157,7 +157,7 @@ public class AdminBookedRooms extends Fragment {
                         System.out.println("bookingPurpose: " + bookingPurpose);
 
                         //Get current staff name
-                        Rooms roomObj = new Rooms(roomID,roomCapacity,roomSoftware,roomHardware, block, floor,url, staff_name, staff_id, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime);
+                        Rooms roomObj = new Rooms(roomID,roomCapacity,roomHardware,roomSoftware, block, floor,url, staff_name, staff_id, requestedEquipment, bookingPurpose, bookingDate, startTime, endTime);
                         roomListingResult.add(roomObj);
                         mRoomItemAdapter.notifyDataSetChanged();
                         /*if(currentUserName.equals(staff)){
