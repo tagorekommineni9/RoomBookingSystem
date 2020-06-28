@@ -127,19 +127,31 @@ public class SplashActivity extends AppCompatActivity {
         mBookingDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot roomIds : dataSnapshot.getChildren()){
-                    for(DataSnapshot dates: roomIds.getChildren())
-                    {
-                        for(DataSnapshot startTimeBooking: dates.getChildren())
-                        {
 
-                            flagDeleteBooking = checkWithCurrentTime(startTimeBooking.child("endTime").getValue().toString(), dates.getKey());
-                            if(flagDeleteBooking)
+                if(dataSnapshot.exists())
+                {
+
+                    for(DataSnapshot roomIds : dataSnapshot.getChildren()){
+
+                        for(DataSnapshot getDates : roomIds.getChildren())
+                        {
+                            if(Integer.parseInt(getDates.getKey().substring(3,5)) <= Integer.parseInt(getCurrentDate().substring(3,5)))
                             {
-                                mBookingDatabase.child(roomIds.getKey()).child(dates.getKey()).child(startTimeBooking.getKey()).removeValue();
+                                //Delete the bookings on current date and old dates and not future dates
+                                for(DataSnapshot currentDateRooms : roomIds.child(getCurrentDate()).getChildren())
+                                {
+                                    flagDeleteBooking = checkWithCurrentTime(currentDateRooms.child("endTime").getValue().toString());
+
+                                    if(flagDeleteBooking)
+                                    {
+                                        mBookingDatabase.child(roomIds.getKey()).child(getCurrentDate()).child(currentDateRooms.getKey()).removeValue();
+                                    }
+                                }
                             }
 
                         }
+
+
                     }
                 }
             }
@@ -170,9 +182,9 @@ public class SplashActivity extends AppCompatActivity {
         return currentDate;
 
     }
-    private boolean checkWithCurrentTime(String key, String dateDb) {
+    private boolean checkWithCurrentTime(String key) {
 
-        if(Integer.parseInt(key) < getCurrentTime() && dateDb.compareTo(getCurrentDate())<=0)
+         if(Integer.parseInt(key) <= getCurrentTime())
         {
             return true;
         }
