@@ -36,7 +36,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
     Button btncancel;
     String date;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId, startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
         floor = intent.getStringExtra(AdminBookedRooms.ROOM_FLOOR);
         currentId = intent.getStringExtra(AdminBookedRooms.ROOM_STAFF_ID);
         date = intent.getStringExtra(AdminBookedRooms.ROOM_DATE);
-
+        startTime = intent.getStringExtra(AdminBookedRooms.ROOM_START_TIME);
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
@@ -86,11 +86,11 @@ public class AdminModifyBookedRoom extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists())
                         {
-                            if (dataSnapshot.child(date).child(currentId).exists())
+                            if (dataSnapshot.child(date).child(startTime).exists())
                             {
 
                                 //remove from bookings table
-                                mBookingDatabase.child(date).child(currentId).removeValue();
+                                mBookingDatabase.child(date).child(startTime).removeValue();
 
                                 //remove from users table
                                 mUserDatabase.child("bookings").child(roomID).removeValue();

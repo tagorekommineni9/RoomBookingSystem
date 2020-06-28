@@ -37,6 +37,7 @@ public class BookedRooms extends Fragment {
     public static final String ROOM_HARDWARE = "hardware";
     public static final String ROOM_IS_AVAILABLE = "available";
     public static final String ROOM_BLOCK = "block";
+    public static final String ROOM_START_TIME= "block";
     public static final String ROOM_FLOOR = "floor";
     public static final String ROOM_IMAGE = "roomimage";
     public static final String ROOM_STAFF_ID = "staffId";
@@ -108,6 +109,7 @@ public class BookedRooms extends Fragment {
                     intent.putExtra(ROOM_IMAGE, room.getRoomimage());
                     intent.putExtra(ROOM_STAFF_ID, room.getStaffId());
                     intent.putExtra(ROOM_DATE, room.getBookingDate());
+                    intent.putExtra(ROOM_START_TIME, room.getStartTime());
                     startActivity(intent);
                 }
             });
@@ -149,26 +151,27 @@ public class BookedRooms extends Fragment {
                 for (DataSnapshot dateRoomBooked: dataSnapshot.getChildren()) {
                     System.out.println("dateRoomBooked: " + dateRoomBooked);
                     System.out.println("currentId: " + currentId);
-                    for (DataSnapshot staffRoomBooked :dateRoomBooked.getChildren()) {
-                        System.out.println("staffRoomBooked: " + staffRoomBooked.getKey());
-                        System.out.println("currentId: " + currentId);
-                        if(staffRoomBooked.getKey().equals(currentId))
+                    for (DataSnapshot startTimeRommbooked :dateRoomBooked.getChildren()) {
+                        System.out.println("startTimeRommbooked: " + startTimeRommbooked.getKey());
+                        System.out.println("startTime: " + startTime);
+                        staffId = startTimeRommbooked.child("staffId").getValue().toString();
+
+                        if(currentId.equals(staffId))
                         {
-                            System.out.println(staffRoomBooked.child("roomcapacity").getValue().toString());
-                            roomID = staffRoomBooked.child("roomno").getValue().toString();
-                            roomCapacity = staffRoomBooked.child("roomcapacity").getValue().toString();
-                            roomSoftware = staffRoomBooked.child("software").getValue().toString();
-                            roomHardware = staffRoomBooked.child("hardware").getValue().toString();
-                            block = staffRoomBooked.child("block").getValue().toString();
-                            floor = staffRoomBooked.child("floor").getValue().toString();
-                            url  = staffRoomBooked.child("roomimage").getValue().toString();
-                            staff  = staffRoomBooked.child("staff").getValue().toString();
-                            staffId = staffRoomBooked.child("staffId").getValue().toString();
-                            requestedEquipment = staffRoomBooked.child("requestedEquipment").getValue().toString();
-                            bookingPurpose = staffRoomBooked.child("bookingPurpose").getValue().toString();
-                            bookingDate = staffRoomBooked.child("bookingDate").getValue().toString();
-                            startTime = staffRoomBooked.child("startTime").getValue().toString();
-                            endTime = staffRoomBooked.child("endTime").getValue().toString();
+                            System.out.println(startTimeRommbooked.child("roomcapacity").getValue().toString());
+                            roomID = startTimeRommbooked.child("roomno").getValue().toString();
+                            roomCapacity = startTimeRommbooked.child("roomcapacity").getValue().toString();
+                            roomSoftware = startTimeRommbooked.child("software").getValue().toString();
+                            roomHardware = startTimeRommbooked.child("hardware").getValue().toString();
+                            block = startTimeRommbooked.child("block").getValue().toString();
+                            floor = startTimeRommbooked.child("floor").getValue().toString();
+                            url  = startTimeRommbooked.child("roomimage").getValue().toString();
+                            staff  = startTimeRommbooked.child("staff").getValue().toString();
+                            requestedEquipment = startTimeRommbooked.child("requestedEquipment").getValue().toString();
+                            bookingPurpose = startTimeRommbooked.child("bookingPurpose").getValue().toString();
+                            bookingDate = startTimeRommbooked.child("bookingDate").getValue().toString();
+                            startTime = startTimeRommbooked.child("startTime").getValue().toString();
+                            endTime = startTimeRommbooked.child("endTime").getValue().toString();
 
                             System.out.println("requestedEquipment : " + requestedEquipment);
                             System.out.println("bookingPurpose: " + bookingPurpose);
@@ -182,7 +185,9 @@ public class BookedRooms extends Fragment {
                                 roomListingResult.add(roomObj);
                                 mRoomItemAdapter.notifyDataSetChanged();
                             }*/
+
                         }
+
                     }
                 }
             }

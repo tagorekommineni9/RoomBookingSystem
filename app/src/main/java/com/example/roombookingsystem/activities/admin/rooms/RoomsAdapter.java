@@ -68,7 +68,7 @@ public class RoomsAdapter extends  RecyclerView.Adapter<RoomsViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(RoomList.get(position).getRoomno()).exists()){
-                    holder.mTableLayout.setVisibility(View.GONE);
+                    holder.mTableLayout.setVisibility(View.VISIBLE);
                     holder.mStaffName.setText(RoomList.get(position).getStaffname());
                     holder.mRequestedEquipmentLayout.setVisibility(View.VISIBLE);
                     holder.mRequestedEquipment.setText(RoomList.get(position).getRequestedEquipment());

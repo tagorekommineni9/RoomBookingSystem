@@ -39,7 +39,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
     private TableLayout mTableLayoutView;
     TextView mRoomNo, mRoomCapacity, mRoomHardware, mRoomSoftware, mBlock, mFloor;
     Button btn_cancel;
-    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId;
+    String roomID, roomCapacity, roomSoftware, roomHardware, roomIsAvailable, block, floor, currentId, startTime;
     String date;
     MaterialToolbar toolbar;
 
@@ -85,6 +85,7 @@ public class ModifyBookedRoom extends AppCompatActivity {
         block = intent.getStringExtra(BookedRooms.ROOM_BLOCK);
         floor = intent.getStringExtra(BookedRooms.ROOM_FLOOR);
         date = intent.getStringExtra(BookedRooms.ROOM_DATE);
+        startTime = intent.getStringExtra(BookedRooms.ROOM_START_TIME);
 
         mRoomNo.setText(roomID);
         mRoomCapacity.setText(roomCapacity);
@@ -105,11 +106,11 @@ public class ModifyBookedRoom extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists())
                         {
-                            if (dataSnapshot.child(date).child(currentId).exists())
+                            if (dataSnapshot.child(date).child(startTime).exists())
                             {
 
                                 //remove from bookings table
-                                mBookingsDatabase.child(date).child(currentId).removeValue();
+                                mBookingsDatabase.child(date).child(startTime).removeValue();
 
                                 //remove from users table
                                 mUserDatabase.child("bookings").child(roomID).removeValue();

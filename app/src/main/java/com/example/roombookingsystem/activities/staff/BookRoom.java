@@ -416,10 +416,10 @@ public class BookRoom extends AppCompatActivity {
     }
 
     private void checkStaffListDbInformation(String key, String dateBooking) {
-        DatabaseReference StaffKeyRef = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking).child(key);
+        DatabaseReference StartTimeRef = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking).child(key);
         System.out.println("Inside checkStaffListDbInformation");
         //Toast.makeText(this, "Inside checkStaffListDbInformation()", Toast.LENGTH_SHORT).show();
-        StaffKeyRef.addValueEventListener(new ValueEventListener() {
+        StartTimeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("Inside onDataChange");
@@ -428,14 +428,15 @@ public class BookRoom extends AppCompatActivity {
                     System.out.println("startTimeDb: " + startTimeDb);
                     endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
                     System.out.println("endTimeDb: " + endTimeDb);
-                    if (dataSnapshot.exists() && (startTime >= startTimeDb && startTime < endTimeDb)) {
+                    if ((startTime >= startTimeDb && startTime < endTimeDb)) {
                         Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    else
-                    {
+                    } else if((startTime > endTimeDb)){
                         bookRoomDbSetData();
                     }
+                }
+                else
+                {
+                    bookRoomDbSetData();
                 }
             }
 
@@ -481,7 +482,7 @@ public class BookRoom extends AppCompatActivity {
         //mRoomsDatabase.child("bookingDate").setValue(mDate.getText().toString());
 
         //create bookings table with all room information
-        bookingReference.child(currentId).updateChildren(bookingsMap);
+        bookingReference.child(String.valueOf(startTime)).updateChildren(bookingsMap);
 
         Toast.makeText(BookRoom.this, "Room booked successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(BookRoom.this, StaffDashboardActivity.class);
