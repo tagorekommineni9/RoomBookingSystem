@@ -428,9 +428,12 @@ public class BookRoom extends AppCompatActivity {
                     System.out.println("startTimeDb: " + startTimeDb);
                     endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
                     System.out.println("endTimeDb: " + endTimeDb);
-                    if ((startTime >= startTimeDb && startTime < endTimeDb)) {
+                    if (dataSnapshot.exists() && (startTime >= startTimeDb && startTime < endTimeDb)) {
                         Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
-                    } else if((startTime > endTimeDb)){
+                        return;
+                    }
+                    else if(startTime > endTimeDb)
+                    {
                         bookRoomDbSetData();
                     }
                 }
