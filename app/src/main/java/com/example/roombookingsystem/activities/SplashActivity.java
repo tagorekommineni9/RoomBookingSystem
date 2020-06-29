@@ -10,7 +10,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.roombookingsystem.R;
 import com.example.roombookingsystem.activities.admin.AdminDashboardActivity;
@@ -23,23 +22,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class SplashActivity extends AppCompatActivity {
 
     FirebaseAuth mFirebaseAuth;
     FirebaseUser mFirebaseUser;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
-    private DatabaseReference userDatabaseReference, mBookingDatabase;
+    private DatabaseReference userDatabaseReference;
     String userType;
-    String currentDate;
     private static int TIMER = 5000;
     Animation topAnim,bottomAnim;
     TextView logo;
     ImageView image;
-    int currentTime;
-    boolean flagDeleteBooking;
 
 
     @Override
@@ -61,9 +54,6 @@ public class SplashActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mBookingDatabase = FirebaseDatabase.getInstance().getReference().child("bookings");
-
-        deleteOldRoomBookings();
 
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -123,76 +113,6 @@ public class SplashActivity extends AppCompatActivity {
         };
     }
 
-    private void deleteOldRoomBookings() {
-        mBookingDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.exists())
-                {
-
-                    for(DataSnapshot roomIds : dataSnapshot.getChildren()){
-
-                        for(DataSnapshot getDates : roomIds.getChildren())
-                        {
-                            if(Integer.parseInt(getDates.getKey().substring(3,5)) <= Integer.parseInt(getCurrentDate().substring(3,5)))
-                            {
-                                //Delete the bookings on current date and old dates and not future dates
-                                for(DataSnapshot currentDateRooms : roomIds.child(getCurrentDate()).getChildren())
-                                {
-                                    flagDeleteBooking = checkWithCurrentTime(currentDateRooms.child("endTime").getValue().toString());
-
-                                    if(flagDeleteBooking)
-                                    {
-                                        mBookingDatabase.child(roomIds.getKey()).child(getCurrentDate()).child(currentDateRooms.getKey()).removeValue();
-                                    }
-                                }
-                            }
-
-                        }
-
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private int getCurrentTime()
-    {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY HH:mm:ss");
-        Date date = new Date();
-        currentDate = formatter.format(date);
-
-        currentTime = Integer.parseInt(currentDate.split(" ")[1].split(":")[0]);
-
-        return currentTime;
-    }
-
-    private String getCurrentDate()
-    {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-YYYY");
-        Date date = new Date();
-        currentDate = formatter.format(date);
-        return currentDate;
-
-    }
-    private boolean checkWithCurrentTime(String key) {
-
-         if(Integer.parseInt(key) <= getCurrentTime())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
 
     private void loginScreen() {
