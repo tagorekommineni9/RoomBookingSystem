@@ -117,7 +117,9 @@ public class ModifyBookedRoom extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Booking Removed Successfully!", Toast.LENGTH_LONG).show();
 
-                                finish();
+                                Intent intent = new Intent(ModifyBookedRoom.this, StaffDashboardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                             }
                         }
                     }

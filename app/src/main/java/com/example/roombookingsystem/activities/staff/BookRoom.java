@@ -1,6 +1,7 @@
 package com.example.roombookingsystem.activities.staff;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -25,6 +26,7 @@ import com.example.roombookingsystem.activities.admin.MultiSelectionSpinner;
 import com.example.roombookingsystem.activities.admin.rooms.Rooms;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BookRoom extends AppCompatActivity {
@@ -60,6 +63,7 @@ public class BookRoom extends AppCompatActivity {
     private String[] startSplit, endSplit;
     private int durationTime, startTime, endTime, hours;
     private int startTimeDb, endTimeDb;
+    Boolean checkFlag= false;
 
 
     public BookRoom() {
@@ -90,7 +94,6 @@ public class BookRoom extends AppCompatActivity {
         //software and hardware
         /*sp_software = findViewById(R.id.spinnerSoftware);
         sp_hardware = findViewById(R.id.spinnerHardware);
-
         ArrayList<Item> softwareItems = new ArrayList<>();
         softwareItems.add(Item.builder().name("Java").value(false).build());
         softwareItems.add(Item.builder().name("Android").value(false).build());
@@ -101,7 +104,6 @@ public class BookRoom extends AppCompatActivity {
         softwareItems.add(Item.builder().name("Net Beans").value(false).build());
         softwareItems.add(Item.builder().name("Microsoft Office").value(false).build());
         sp_software.setItems(softwareItems);
-
         ArrayList<Item> hardwareItems = new ArrayList<>();
         hardwareItems.add(Item.builder().name("Mouse").value(false).build());
         hardwareItems.add(Item.builder().name("Keyboard").value(false).build());
@@ -343,7 +345,6 @@ public class BookRoom extends AppCompatActivity {
                         hardwares += ", " + hardwareItem.getName();
                     }
                 }
-
                 roomSoftware = softwares;
                 roomHardware = hardwares;*/
 
@@ -388,14 +389,30 @@ public class BookRoom extends AppCompatActivity {
                         dateBooking = mDate.getText().toString();
                         bookingReference = FirebaseDatabase.getInstance().getReference("bookings").child(roomID).child(dateBooking);
 
+                        checkIfAlreadyBooked();
+                       // bookRoomDbSetData();
 
-                        //new
+                        /*
                         bookingReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
                                     for(DataSnapshot timeList : dataSnapshot.getChildren()){
-                                        checkStaffListDbInformation(timeList.getKey(), dateBooking);
+                                        if(checkFlag)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+
+                                            if(startTime == Integer.parseInt(timeList.getKey()))
+                                            {
+                                                Toast.makeText(BookRoom.this, "Room is already booked at " + startTime, Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+
+
                                     }
                                 }
                                 else
@@ -410,11 +427,113 @@ public class BookRoom extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
-                        });
+                        });*/
                     }
                 }
             }
         });
+    }
+
+    private void checkIfAlreadyBooked() {
+
+        final List<String> timelist = new ArrayList<>();
+
+        bookingReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot timeSnapshot : dataSnapshot.getChildren()) {
+                    timelist.add(timeSnapshot.getKey());
+                }
+
+                if(!dataSnapshot.hasChild(String.valueOf(startTime)) && timelist.isEmpty())
+                {
+                    bookRoomDbSetData();
+                }
+                else
+                {
+                    for (int i=0;i<timelist.size();i++)
+                    {
+                        if(String.valueOf(startTime).equals(timelist.get(i)))
+                        {
+                            DatabaseReference StartTimeRef = FirebaseDatabase.getInstance()
+                                    .getReference("bookings").child(roomID).child(dateBooking).child(String.valueOf(startTime));
+
+                            StartTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        startTimeDb = Integer.parseInt(dataSnapshot.child("startTime").getValue().toString());
+                                        endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
+                                        System.out.println("start Time: " + startTime + " end Time: " + endTime + " start Time DB: "+ startTimeDb + " end Time DB: "+ endTimeDb);
+
+                                        if (startTime >= startTimeDb && startTime <= endTimeDb
+                                        || endTime >= endTimeDb){
+
+                                            Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+                        else
+                        {
+                            i++;
+                            DatabaseReference StartTimeRef = FirebaseDatabase.getInstance()
+                                    .getReference("bookings").child(roomID).child(dateBooking).child(timelist.get(timelist.size()-1));
+
+                            StartTimeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        startTimeDb = Integer.parseInt(dataSnapshot.child("startTime").getValue().toString());
+                                        endTimeDb = Integer.parseInt(dataSnapshot.child("endTime").getValue().toString());
+                                        System.out.println("start Time: " + startTime + " end Time: " + endTime + " start Time DB: "+ startTimeDb + " end Time DB: "+ endTimeDb);
+
+                                        if (startTime >= startTimeDb && startTime < endTimeDb){
+
+                                            Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
+                                        }
+                                        else if(startTime >= endTimeDb)
+                                        {
+                                            Toast.makeText(BookRoom.this, "Book a new room", Toast.LENGTH_LONG).show();
+                                            bookRoomDbSetData();
+                                        }
+                                        else
+                                        {
+
+                                            Toast.makeText(BookRoom.this, "Room is already booked ", Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void checkStaffListDbInformation(String key, String dateBooking) {
@@ -436,22 +555,15 @@ public class BookRoom extends AppCompatActivity {
                     System.out.println("start Time: " + startTime + " end Time: " + endTime + " start Time DB: "+ startTimeDb + " end Time DB: "+ endTimeDb);
                     if (startTime >= startTimeDb && startTime < endTimeDb) {
                         Toast.makeText(BookRoom.this, "Room is already booked from " + startTimeDb + " to " + endTimeDb, Toast.LENGTH_LONG).show();
+                        checkFlag = true;
                     }
-
-                    System.out.println(staffIdDb + " " + currentId);
-
-                    if(startTime >= endTimeDb && startTime!= startTimeDb )
+                   /* else if(startTime >= endTimeDb && startTime!= startTimeDb)
                     {
-                        //update or book a new room with same user id by extending the time
-                        bookRoomDbSetData();
-                    }
-
+                         bookRoomDbSetData();
+                    }*/
 
                 }
-                else
-                {
-                    bookRoomDbSetData();
-                }
+
 
             }
 
