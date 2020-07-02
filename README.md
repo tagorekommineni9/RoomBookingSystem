@@ -6,6 +6,6 @@
 * Tagore Kommineni - 1896534
 * Tanya Chawla - 1896508
 * Arshdeep Kaur - 1895974
-* Naram Akhileshwar Reddy - 1895478
+* Naram Akhileshwar Reddy - 1895748
 * Sama Mahesh Reddy - 1898496
 * Aditya Jigishkumar Purani - 1896493
